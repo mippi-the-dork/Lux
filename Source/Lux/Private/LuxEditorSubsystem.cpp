@@ -1,3 +1,5 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
 #include "LuxEditorSubsystem.h"
 #include "LevelEditor.h"
 #include "EditorViewportClient.h"
