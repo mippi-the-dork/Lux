@@ -116,7 +116,7 @@ bool FLuxModule::TickPanels(float DeltaTime)
 		return true;
 	}
 
-	UClass* WidgetClass = LoadClass<UUserWidget>(nullptr, TEXT("/Lux/EUW_LuxPanel.EUW_LuxPanel_C"));
+	UClass* WidgetClass = LoadClass<UUserWidget>(nullptr, TEXT("/Lux/Lux/EditorUtilityWidgets/EUW_LuxPanel.EUW_LuxPanel_C"));
 	if (!WidgetClass)
 	{
 		return true;
