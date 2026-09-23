@@ -6,7 +6,7 @@ Lux adds a toggleable light directly to the Unreal Editor viewport, giving you a
 
 Turn it on when you need it. Adjust the intensity, radius, and color directly from the viewport toolbar. Turn it off when you're done.
 
-![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.8.2-black?logo=unrealengine)
+![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.8.x-black?logo=unrealengine)
 ![Platform](https://img.shields.io/badge/Platform-Windows%2064--bit-blue)
 ![Type](https://img.shields.io/badge/Plugin-Editor%20Only-green)
 ![Version](https://img.shields.io/badge/Version-1.0.4-blue)
