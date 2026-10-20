@@ -4,7 +4,7 @@
 	"VersionName": "1.0.4",
 	"FriendlyName": "Lux",
 	"Description": "Lux adds a toggleable headlamp to the editor viewport, making dark levels easier to navigate and inspect. Adjust intensity, radius, and color directly from the viewport toolbar, with settings retained between levels.",
-	"Category": "Editor",
+	"Category": "Viewport",
 	"CreatedBy": "Mippithedork",
 	"EngineVersion": "5.8.0",
 	"CreatedByURL": "",
