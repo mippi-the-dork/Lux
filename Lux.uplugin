@@ -1,28 +1,24 @@
 {
-	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0.4",
-	"FriendlyName": "Lux",
-	"Description": "Lux adds a toggleable headlamp to the editor viewport, making dark levels easier to navigate and inspect. Adjust intensity, radius, and color directly from the viewport toolbar, with settings retained between levels.",
-	"Category": "Viewport",
-	"CreatedBy": "Mippithedork",
-	"EngineVersion": "5.8.0",
-	"CreatedByURL": "",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"SupportURL": "",
-	"CanContainContent": true,
-	"IsBetaVersion": false,
-	"IsExperimentalVersion": false,
-	"Installed": false,
-	"Modules": [
-		{
-			"Name": "Lux",
-			"Type": "Editor",
-			"LoadingPhase": "PostEngineInit",
-			"PlatformAllowList": [
-				"Win64"
-			]
-		}
-	]
+    "FileVersion": 3,
+    "Version": 205,
+    "VersionName": "2.0.5",
+    "FriendlyName": "Lux",
+    "Description": "A native Level Editor viewport headlamp with a compact Slate toolbar control, live light adjustments, and configurable project defaults.",
+    "Category": "Viewport",
+    "CreatedBy": "Mippithedork",
+    "EngineVersion": "5.8.0",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "Modules": [
+        {
+            "Name": "Lux",
+            "Type": "Editor",
+            "LoadingPhase": "PostEngineInit",
+            "PlatformAllowList": [
+                "Win64"
+            ]
+        }
+    ]
 }

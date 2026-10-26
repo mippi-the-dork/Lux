@@ -1,57 +1,72 @@
-﻿// Copyright Mippithedork 2026, Inc. All Rights Reserved.
-
+// Copyright Mippithedork 2026, Inc. All Rights Reserved.
 #pragma once
 
 #include "CoreMinimal.h"
 #include "EditorSubsystem.h"
-#include "Components/PointLightComponent.h"
 #include "TickableEditorObject.h"
 #include "LuxEditorSubsystem.generated.h"
 
-UCLASS(BlueprintType)
-class ULuxEditorSubsystem : public UEditorSubsystem, public FTickableEditorObject
+class UPointLightComponent;
+class UWorld;
+class ULuxUserSettings;
+
+/** Manages exactly one transient point light in the editor world. */
+UCLASS()
+class LUX_API ULuxEditorSubsystem final : public UEditorSubsystem, public FTickableEditorObject
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	virtual void Deinitialize() override;
+    virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+    virtual void Deinitialize() override;
+    virtual void Tick(float DeltaTime) override;
+    virtual bool IsTickable() const override { return !IsTemplate() && (bEnabled || bPreferencesDirty); }
+    virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(ULuxEditorSubsystem, STATGROUP_Tickables); }
 
-	// FTickableEditorObject Interface implementation
-	virtual void Tick(float DeltaTime) override;
-	virtual bool IsTickable() const override { return bIsHeadlampActive && !IsTemplate(); }
-	virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(ULuxEditorSubsystem, STATGROUP_Tickables); }
+    bool IsHeadlampActive() const { return bEnabled; }
+    void SetHeadlampState(bool bNewEnabled);
+    void ToggleHeadlamp() { SetHeadlampState(!bEnabled); }
 
-	UFUNCTION(BlueprintCallable, Category = "Lux")
-	void SetHeadlampState(bool bNewState);
+    float GetIntensity() const;
+    float GetAttenuationRadius() const;
+    FLinearColor GetLightColor() const;
+    bool GetCastShadows() const;
+    float GetSourceRadius() const;
+    float GetVolumetricScatteringIntensity() const;
+    bool GetUseTemperature() const;
+    float GetTemperature() const;
+    float GetSpecularScale() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Lux")
-	bool IsHeadlampActive() const { return bIsHeadlampActive; }
+    void SetIntensity(float Value);
+    void SetAttenuationRadius(float Value);
+    void SetLightColor(FLinearColor Value);
+    void SetCastShadows(bool bValue);
+    void SetSourceRadius(float Value);
+    void SetVolumetricScatteringIntensity(float Value);
+    void SetUseTemperature(bool bValue);
+    void SetTemperature(float Value);
+    void SetSpecularScale(float Value);
 
-	UFUNCTION(BlueprintCallable, Category = "Lux")
-	void UpdateLightSettings(float Intensity, FLinearColor Color, float Radius);
-
-	// MOVED TO PUBLIC WITH UPROPERTY: Exposes variables cleanly to your flyout UI initialization logic
-	UPROPERTY(BlueprintReadOnly, Category = "Lux")
-	float CachedIntensity = 5000.0f;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Lux")
-	FLinearColor CachedColor = FLinearColor::White;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Lux")
-	float CachedRadius = 1000.0f;
+    void ResetToProjectDefaults();
+    void RefreshProjectLimits();
 
 private:
-	UPROPERTY(Transient)
-	UPointLightComponent* TransientLightComponent = nullptr;
+    void EnsureLight();
+    void ApplyLightSettings();
+    void DestroyLight();
+    void HandleWorldCleanup(UWorld* World, bool bSessionEnded, bool bCleanupResources);
+    void MarkPreferencesDirty();
+    void SavePreferences();
 
-	bool bIsHeadlampActive = false;
+    UPROPERTY(Transient)
+    TObjectPtr<UPointLightComponent> TransientLightComponent;
 
-	// Weak references must not keep an unloaded editor world alive.
-	TWeakObjectPtr<UWorld> LightWorld;
-	TWeakObjectPtr<UWorld> UnloadingWorld;
+    UPROPERTY(Transient)
+    TObjectPtr<ULuxUserSettings> CachedPreferences;
 
-	void EnsureLight();
-	void HandleWorldCleanup(UWorld* World, bool bSessionEnded, bool bCleanupResources);
-	void DestroyLight();
+    TWeakObjectPtr<UWorld> LightWorld;
+    TWeakObjectPtr<UWorld> UnloadingWorld;
+    bool bEnabled = false; // Deliberately session-only, starts off after restart.
+    bool bPreferencesDirty = false;
+    double LastPreferenceChangeSeconds = 0.0;
 };

@@ -1,505 +1,105 @@
-# Lux
+# Lux 2.0.5
 
-**A simple viewport headlamp for Unreal Engine.**
+Lux is a lightweight, Editor-only Unreal Engine viewport headlamp. It makes dark levels easier to inspect without placing lights in your map or modifying your level assets.
 
-Lux adds a toggleable light directly to the Unreal Editor viewport, giving you an easy way to inspect dark environments without placing temporary lights into your level.
+## Requirements
 
-Turn it on when you need it. Adjust the intensity, radius, and color directly from the viewport toolbar. Turn it off when you're done.
+- Unreal Engine 5.8.x (built against the 5.8 editor API; validation required in your local 5.8.3 project)
+- Windows 64-bit
+- Editor only
 
-![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.8.2-black?logo=unrealengine)
-![Platform](https://img.shields.io/badge/Platform-Windows%2064--bit-blue)
-![Type](https://img.shields.io/badge/Plugin-Editor%20Only-green)
-![Version](https://img.shields.io/badge/Version-1.0.4-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+## Viewport Toolbar
 
-![Lux illuminating a dark Unreal Engine level](Doc/Images/Lux-Hero.png)
+Lux adds a sun-shaped icon with a small native dropdown at the **left edge of the right-aligned viewport toolbar group**, before the other right-side controls. It does not depend on the Link plugin.
 
----
+- **Click the icon** to toggle the headlamp. Unreal's normal foreground tint indicates off; Accent Blue indicates on. A native simple button supplies hover and pressed feedback without a blue checked background.
+- **Click the dropdown arrow** to edit the light properties.
+- **Point light follows the most recently interacted perspective Level Editor viewport.** Clicking or interacting with a different viewport transfers the light to that viewport's camera. Orthographic cameras do not move the light.
+- Lux uses one global light, not one per viewport. Other viewports may also see its contribution because editor viewports share the editor world.
 
-## What is Lux?
+Lux uses a native editor menu with Headlamp and Additional Properties sections, plus a collapsible Advanced group. Property fields follow Unreal's Details-style alignment. Standard menu actions sit below the property controls. The menu provides these controls:
 
-Building dark environments often creates a small but persistent editor problem: sometimes you need to **see the level without changing the level**.
+| Property | Behavior |
+|---|---|
+| Intensity | Numeric scrub control, constrained by project Min/Max |
+| Attenuation Radius | Numeric scrub with a centimeters unit label, constrained by project Min/Max |
+| Light Color | Opens Unreal Engine's built-in color picker |
+| Cast Shadows | Toggles dynamic point-light shadows |
+| Source Radius | Light source radius in centimeters |
+| Volumetric Scattering Intensity | Amount of volumetric lighting |
+| Use Temperature | Advanced toggle for blackbody temperature |
+| Temperature | Advanced Kelvin value, enabled only when temperature is in use |
+| Specular Scale | Advanced value from 0 to 1 |
+| Reset to Project Defaults | Restores all light parameters to the project's configured defaults |
+| Lux Project Settings | Opens Project Settings directly to Plugins > Lux using Lux's registered section identifier |
 
-You can increase exposure, switch view modes, place temporary lights, or otherwise modify the scene just to inspect a corner of the environment.
+There is no Apply button: settings update the light immediately.
 
-Lux gives you another option.
+## Project Settings
 
-It adds a temporary headlamp to the Unreal Editor viewport that follows your camera while you work. The light exists only as an editor utility and does not require an Actor in your level.
+Go to **Edit > Project Settings > Plugins > Lux**, or choose **Lux Project Settings** from the viewport dropdown. Both target the same native settings section.
 
-This makes Lux particularly useful for:
+Project Settings define the project-wide minimum, maximum, and default values for **Intensity** and **Attenuation Radius**. They also define default Light Color, Cast Shadows, Source Radius, Volumetric Scattering, Use Temperature, Temperature, and Specular Scale.
 
-* Dark horror environments
-* Caves, tunnels, basements, and underground spaces
-* Unlit or partially lit levels
-* Lighting workflows
-* Level design blockouts
-* Environment art inspection
-* Finding geometry hidden in darkness
-* Working in intentionally low exposure environments
+Project defaults are stored using Unreal's standard editor configuration system. Changes to the intensity and radius limits clamp current user values if necessary. The Reset command uses the current project defaults.
 
-Lux is designed to stay out of the way until you need it.
+### User preferences
 
----
+Lux remembers the most recently used light properties in each user's editor-per-project settings and batches disk writes to avoid saving every numerical scrub step. **The enabled/disabled state is session-only**, so Lux begins off each time you open the editor. Each user's properties are independent from the project's default values.
 
-# Features
-
-### Viewport Headlamp
-
-Enable a temporary light that follows your active editor viewport camera as you navigate the level.
-
-No temporary light Actors. No Outliner cleanup.
-
-### One-Click Toggle
-
-Lux lives directly in the Level Editor viewport toolbar, allowing the headlamp to be enabled or disabled without opening another window.
-
-### Adjustable Intensity
-
-Increase or reduce the brightness of the headlamp to suit the environment you're inspecting.
-
-### Adjustable Radius
-
-Control how far the light reaches, from examining small spaces to illuminating larger environments.
-
-### Adjustable Color
-
-Change the headlamp color when a neutral white light is not appropriate for the environment you're working in.
-
-### Real-Time Updates
-
-Changes to Lux settings update the viewport immediately.
-
-### Settings Retained Between Levels
-
-Lux retains its current intensity, radius, color, and enabled state when moving between levels during the same Unreal Editor session.
-
-### Editor Only
-
-Lux exists entirely as an editor tool.
-
-It does not add lighting to your packaged game and does not need to add Actors to your level.
-
-### Clean Level Transitions
-
-Lux safely releases and recreates its transient editor components when changing maps, preventing the tool from keeping unloaded editor worlds alive.
-
----
-
-![Toggling the Lux viewport headlamp](Doc/Images/Lux-Toggle.gif)
-
----
-
-# Using Lux
-
-Lux is intentionally simple.
-
-## Toggle the Headlamp
-
-Look for **Lux** in the Level Editor viewport toolbar.
-
-Click the Lux toggle to enable the headlamp.
-
-Click it again to disable it.
-
-When enabled, the Lux light follows the active viewport camera as you navigate through the level.
-
----
-
-## Adjust the Headlamp
-
-Open the Lux settings menu beside the Lux toggle.
-
-From here you can adjust:
-
-| Setting       | Description                                    |
-| ------------- | ---------------------------------------------- |
-| **Intensity** | Controls the brightness of the viewport light. |
-| **Radius**    | Controls how far the light reaches.            |
-| **Color**     | Controls the color of the light.               |
-
-Changes are applied immediately.
-
-![Lux viewport controls](Doc/Images/Lux-Controls.png)
-
----
-
-# Example Workflow
-
-Imagine you're building a horror environment that is intentionally almost completely dark.
-
-You need to inspect some geometry at the end of a hallway, but you don't want to:
-
-* Modify your actual lighting
-* Add temporary Point Lights
-* Change exposure settings
-* Switch to an unlit view mode
-* Remember to remove temporary debugging Actors later
-
-Instead:
-
-1. Enable **Lux**.
-2. Navigate to the area you want to inspect.
-3. Adjust the intensity or radius if necessary.
-4. Make your changes.
-5. Disable Lux.
-
-Your level lighting remains untouched.
-
-
-| Lux Off                            | Lux On                           |
-| ---------------------------------- | -------------------------------- |
-| ![Lux Off](Doc/Images/Lux-Off.png) | ![Lux On](Doc/Images/Lux-On.png) |
-
----
-
-# Installation
-
-Lux can be installed through **Fab**, from a **precompiled GitHub Release**, or directly from the **GitHub source**.
-
-For most users, the Fab or GitHub Release installation is recommended.
-
----
-
-## Fab / Epic Games Launcher
-
-> **Availability:** Use this installation method once Lux is available through Fab.
-
-1. Add **Lux** to your library on Fab.
-2. Open the **Epic Games Launcher**.
-3. Navigate to your Unreal Engine Library.
-4. Locate Lux in your Fab / Vault library.
-5. Install Lux to the supported Unreal Engine version.
-6. Launch your Unreal Engine project.
-7. Open **Edit > Plugins**.
-8. Search for **Lux**.
-9. Enable the plugin if it is not already enabled.
-10. Restart Unreal Editor if prompted.
-
-Once enabled, Lux will appear in the Level Editor viewport toolbar.
-
----
-
-## GitHub Release
-
-This is the easiest GitHub installation method because the release package is already prepared for the supported Unreal Engine version.
-
-### 1. Download Lux
-
-Open the repository's **Releases** page:
-
-https://github.com/mippi-the-dork/Lux/releases
-
-Download the latest release package matching your Unreal Engine version and platform.
-
-For example:
-
-```text
-Lux-v1.0.4-UE5.8.2-Win64.zip
-```
-
-### 2. Close Unreal Editor
-
-Close the project before installing the plugin.
-
-### 3. Locate Your Project Plugins Folder
-
-Your project should contain a `Plugins` directory beside the `.uproject` file:
-
-```text
-YourProject/
-├── Config/
-├── Content/
-├── Plugins/
-└── YourProject.uproject
-```
-
-If the `Plugins` directory does not exist, create it.
-
-### 4. Extract Lux
-
-Extract the `Lux` folder into:
-
-```text
-YourProject/Plugins/
-```
-
-The final structure should look similar to:
-
-```text
-YourProject/
-├── Plugins/
-│   └── Lux/
-│       ├── Config/
-│       ├── Content/
-│       ├── Resources/
-│       ├── Source/
-│       └── Lux.uplugin
-└── YourProject.uproject
-```
-
-### 5. Launch the Project
-
-Open your Unreal Engine project.
-
-If necessary, navigate to:
-
-**Edit > Plugins**
-
-Search for:
-
-```text
-Lux
-```
-
-Enable the plugin and restart Unreal Editor if prompted.
-
----
-
-## GitHub Source
-
-Developers who want the latest source or want to modify Lux can clone the repository directly.
-
-### Requirements
-
-Building Lux from source requires a working Unreal Engine C++ development environment.
-
-For Windows this generally means:
-
-* Unreal Engine 5.8.x
-* Visual Studio with the appropriate C++ workloads
-* A project capable of compiling C++ plugins
-
-### Clone the Repository
-
-Close Unreal Editor and navigate to your project's `Plugins` directory.
-
-```bash
-cd YourProject/Plugins
-git clone https://github.com/mippi-the-dork/Lux.git
-```
-
-Your project should now contain:
-
-```text
-YourProject/Plugins/Lux/
-```
-
-### Generate Project Files
-
-If necessary:
-
-1. Right-click your `.uproject`.
-2. Select **Generate Visual Studio project files**.
-
-Then open the generated solution and build your project's Editor target.
-
-For example:
-
-```text
-YourProjectEditor
-Win64
-Development Editor
-```
-
-Launch the project after compilation completes.
-
----
-
-# Updating Lux
-
-## GitHub Release Installation
-
-When updating a manually installed release:
+## Installation
 
 1. Close Unreal Editor.
-2. Remove the existing `Plugins/Lux` folder.
-3. Extract the new Lux release into the `Plugins` directory.
-4. Reopen the project.
-
-Replacing the complete plugin folder is recommended rather than copying individual files over an older version.
-
-## Git Source Installation
-
-If you cloned the repository using Git:
-
-```bash
-cd YourProject/Plugins/Lux
-git pull
-```
-
-Rebuild the project if the source has changed.
-
----
-
-# Compatibility
-
-The current Lux release targets:
-
-|                          |                |
-| ------------------------ | -------------- |
-| **Lux Version**          | 1.0.4          |
-| **Unreal Engine**        | 5.8.2          |
-| **Platform**             | Windows 64-bit |
-| **Plugin Type**          | Editor         |
-| **Runtime Dependency**   | None           |
-| **Packaged Game Impact** | None           |
-
-Lux is currently configured as a **Win64 editor plugin**.
-
-Compatibility with additional Unreal Engine versions or platforms should not be assumed unless explicitly listed in a release.
-
----
-
-# How Lux Works
-
-Lux is implemented as an Unreal Engine editor plugin using an `UEditorSubsystem` and Level Editor viewport integration.
-
-When Lux is enabled:
-
-1. The editor subsystem creates a transient `UPointLightComponent`.
-2. The light is registered with the current Editor world.
-3. Lux tracks the active Level Editor viewport.
-4. The light position follows the viewport camera.
-5. Changes to intensity, radius, or color are immediately applied to the transient light.
-6. When Lux is disabled, the transient light component is destroyed.
-
-Because the light is transient:
-
-* It is not saved into the level.
-* It does not appear as a normal lighting Actor in the World Outliner.
-* It does not become part of the packaged game.
-
-Lux also listens for Editor world cleanup events so that its transient light and viewport UI can be safely released during map changes.
-
-The user's current settings remain stored by the editor subsystem and are reapplied when Lux reconstructs itself in the next Editor world.
-
----
-
-# What Lux Does Not Do
-
-Lux is an **editor visibility tool**, not a gameplay lighting system.
-
-It does not:
-
-* Add permanent lights to your level
-* Modify existing lights
-* Modify your level's saved lighting
-* Affect packaged builds
-* Replace Unreal's lighting workflow
-* Change the appearance of the shipped game
-* Create gameplay flashlight functionality
-
-If you need an actual player flashlight or gameplay lighting system, that should be implemented as part of your game's runtime code or Blueprint systems.
-
-Lux exists only to make working inside dark Unreal Editor environments easier.
-
----
-
-# Troubleshooting
-
-## Lux Does Not Appear in the Viewport
-
-Check:
-
-**Edit > Plugins**
-
-Search for:
-
-```text
-Lux
-```
-
-Confirm that the plugin is enabled.
-
-Restart Unreal Editor if the plugin was just enabled.
-
----
-
-## Unreal Says the Plugin Was Built for a Different Engine Version
-
-Make sure the Lux release matches the Unreal Engine version you are using.
-
-Precompiled plugin binaries are engine-version specific.
-
-If a compatible precompiled release is unavailable, you may need to build Lux from source for your engine version.
-
----
-
-## Lux Does Not Illuminate the Environment
-
-First confirm that Lux is enabled in the viewport toolbar.
-
-Then try increasing:
-
-* **Intensity**
-* **Radius**
-
-The values needed can vary substantially depending on the scale and lighting conditions of the environment.
-
----
-
-## Lux Settings Reset After Restarting Unreal
-
-Lux currently retains its state and light settings while switching between levels during the **current editor session**.
-
-The current version does not persist those settings between separate Unreal Editor sessions.
-
----
-
-# Reporting Bugs
-
-If you encounter a problem, please open an issue:
-
-https://github.com/mippi-the-dork/Lux/issues
-
-When reporting a bug, include:
-
-* Lux version
-* Unreal Engine version
-* Windows version
-* Whether Lux was installed from Fab, a GitHub Release, or source
-* Steps to reproduce the problem
-* Screenshots or video when relevant
-* Any relevant Unreal Editor log output
-
-Clear reproduction steps make issues much easier to diagnose.
-
----
-
-# Feature Requests
-
-Suggestions and feature requests are welcome through GitHub Issues.
-
-When proposing a feature, describe the workflow problem you're trying to solve rather than only the implementation you would like to see.
-
-That makes it easier to determine whether the feature belongs in Lux and whether there may be a simpler solution.
-
----
-
-# Contributions
-
-Pull requests are welcome.
-
-If you're considering a significant change, opening an Issue first is recommended so the direction can be discussed before substantial work is done.
-
-Lux is intended to remain a focused editor utility, so additions should support its core purpose without turning it into a general-purpose lighting suite.
-
----
-
-# License
-
-Lux is distributed under the **MIT License**.
-
-See [`LICENSE`](LICENSE) for details.
-
----
-
-# About
-
-Lux is an Unreal Engine editor utility created by **Mippi the Dork**.
-
-The plugin was built around a simple workflow problem:
-
-> Sometimes you need to see the level without changing the level.
-
-Lux solves that problem with a light you can turn on when you need it and forget about when you don't.
+2. Remove the existing `Plugins/Lux` directory, including the old Lux Blueprint Content folder. Do not merge v2's files into a v1 installation.
+3. Copy the `Lux` directory from the release ZIP to `<YourProject>/Plugins/Lux`.
+4. Regenerate project files when required by your source-plugin workflow, then build and launch the Unreal Editor.
+5. Enable Lux under **Edit > Plugins** if it is not enabled already.
+
+This version is source-only with a Slate-based toolbar. It does not contain or require Editor Utility Widgets, UMG, or Blueprint assets.
+
+## Behavior & Limitations
+
+- Lux uses a transient movable point-light component in the Editor world. It is not saved into the level, is not an actor, and does not operate in cooked builds.
+- The light remains enabled across editor-world/map replacement, but the old light is destroyed before world cleanup and recreated in the new Editor world.
+- The light does not follow PIE/Game viewports. On returning to the editor, it resumes tracking the Level Editor's active perspective viewport.
+- Selecting an orthographic viewport holds the last perspective lighting position until a perspective viewport is selected again.
+- Because the light belongs to the shared Editor world, multiple simultaneously displayed viewports may see its contribution. True per-viewport render isolation is not provided.
+- Lighting impact depends on renderer, project lighting configuration, and viewport show flags. Shadow casting can be comparatively expensive.
+
+## Source layout
+
+- `Lux.cpp`: native Level Editor toolbar registration at the leading edge of the right-aligned toolbar section and input processor lifecycle.
+- `SLuxViewportControl.cpp`: native Slate icon toggle and property flyout.
+- `LuxViewportTracker.cpp`: interaction-based camera selection adapted from the approach used in Metric.
+- `LuxEditorSubsystem.cpp`: transient headlamp management and live settings.
+- `LuxProjectSettings.cpp`: native project-level settings, defaults and limits.
+- `LuxUserSettings.h`: per-user persisted light properties.
+- `LuxStyle.cpp`: SVG vector brush registered in Unreal's Slate style registry.
+
+Copyright Mippithedork 2026, Inc. All Rights Reserved.
+
+## Toolbar placement correction in 2.0.5
+
+- Places Lux at the **start** of the native `Right` section using `EToolMenuInsertType::First`. The entire group stays right-aligned, with Lux on its leftmost edge.
+- Does not anchor to Camera or Link. Its position is independent of either plugin registration order or an entry name.
+- Corrects the 2.0.4 regression that placed Lux in the native left-side viewport controls.
+- Preserves the 2.0.3 icon colors, light settings menu, project settings, and viewport-follow behavior without changes.
+
+## UI polish in 2.0.3
+
+- Positions Lux immediately before Link's registered `LinkViewportControls` toolbar entry when Link is enabled. Without Link, the anchor remains Unreal's native `Camera` entry. The plugins do not depend on each other's modules.
+- Switches the icon toggle to Unreal's `SimpleButton` style so the icon alone conveys state: standard gray when off, Accent Blue when on. Retains native hover, focus and keyboard interaction.
+- Widens the property rows slightly to fit the full `Volumetric Scattering Intensity` label without truncation.
+- Matches the Light Color swatch width to the value column and adds a native separator before the bottom commands.
+- Preserves the native full-range spinbox appearance of Specular Scale. At its maximum of 1.0, Unreal fills the slider track; this matches the corresponding generated Project Settings property control.
+- Verified the original Project Settings already declare `Units="cm"` for all three attenuation-radius properties. No unnecessary metadata change.
+
+## UI polish in 2.0.2
+
+- Replaces the dimmed inactive icon with normal editor foreground tint; the enabled icon remains the native Accent Blue.
+- Uses Unreal's built-in toggle-button checked and hover appearances and a compact combo arrow.
+- Uses `FMenuBuilder` section headings, separators and menu actions instead of a custom form header and two full-width buttons.
+- Aligns numeric fields, the color swatch and both boolean properties on the value column.
+- Displays centimeters and Kelvin alongside the applicable numeric controls and removes forced trailing `.0` for whole values.
+- Corrects Project Settings navigation by registering the actual settings section as `Project / Plugins / Lux`, not the default `LuxProjectSettings` identifier.
+- Preserves all lighting behavior and the per-user preferences from 2.0.1.
