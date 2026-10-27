@@ -36,11 +36,17 @@ public:
     UPROPERTY(Config, EditAnywhere, Category="Light Defaults", meta=(ToolTip="Whether the Lux point light casts dynamic shadows by default."))
     bool bDefaultCastShadows = true;
 
-    UPROPERTY(Config, EditAnywhere, Category="Light Defaults", meta=(ClampMin="0", UIMin="0", Units="cm", ToolTip="Default point-light source radius for highlights and soft shadows."))
+    UPROPERTY(Config, EditAnywhere, Category="Advanced Defaults", meta=(ClampMin="0", ClampMax="10000", UIMin="0", UIMax="1000", Units="cm", ToolTip="Default point-light source radius for highlights and soft shadows."))
     float DefaultSourceRadius = 0.0f;
 
-    UPROPERTY(Config, EditAnywhere, Category="Light Defaults", meta=(ClampMin="0", UIMin="0", ToolTip="Default contribution to volumetric fog."))
+    UPROPERTY(Config, EditAnywhere, Category="Advanced Defaults", meta=(ClampMin="0", ClampMax="100", UIMin="0", UIMax="10", ToolTip="Default contribution to volumetric fog."))
     float DefaultVolumetricScatteringIntensity = 0.0f;
+
+    UPROPERTY(Config, EditAnywhere, Category="Advanced Defaults", meta=(ClampMin="0", ClampMax="6", UIMin="0", UIMax="6", ToolTip="Default multiplier for supported indirect lighting contributions. The visible result depends on the renderer and scene."))
+    float DefaultIndirectLightingIntensity = 1.0f;
+
+    UPROPERTY(Config, EditAnywhere, Category="Advanced Defaults", meta=(ToolTip="Whether the Lux light contributes to translucent material lighting by default."))
+    bool bDefaultAffectTranslucentLighting = true;
 
     UPROPERTY(Config, EditAnywhere, Category="Advanced Defaults", meta=(ToolTip="Enable color temperature on the Lux light by default."))
     bool bDefaultUseTemperature = false;

@@ -4,6 +4,8 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 
+class FMenuBuilder;
+
 class ULuxEditorSubsystem;
 
 /** Native Level Editor toolbar split control and property menu. */
@@ -18,20 +20,20 @@ public:
 private:
     enum class ENumberProperty : uint8
     {
-        Intensity, AttenuationRadius, SourceRadius, Volumetric, Temperature, Specular
+        Intensity, AttenuationRadius, SourceRadius, Volumetric, IndirectLighting, Temperature, Specular
     };
 
     enum class EBooleanProperty : uint8
     {
-        CastShadows, UseTemperature
+        CastShadows, AffectTranslucentLighting, UseTemperature
     };
 
     ULuxEditorSubsystem* GetSubsystem() const;
     TSharedRef<SWidget> MakeSettingsMenu();
-    TSharedRef<SWidget> MakeNumberRow(const FText& Label, const FText& Tooltip, ENumberProperty Property);
-    TSharedRef<SWidget> MakeBooleanRow(const FText& Label, const FText& Tooltip, EBooleanProperty Property);
+    TSharedRef<SWidget> MakeNumberRow(const FText& Label, const FText& Tooltip, ENumberProperty Property, bool bAdvanced = false);
+    TSharedRef<SWidget> MakeBooleanRow(const FText& Label, const FText& Tooltip, EBooleanProperty Property, bool bAdvanced = false);
     TSharedRef<SWidget> MakeColorRow();
-    TSharedRef<SWidget> MakeAdvancedContent();
+    void PopulateAdvancedMenu(FMenuBuilder& MenuBuilder);
     FReply OnColorClicked(const FGeometry& Geometry, const FPointerEvent& Event);
     float GetNumber(ENumberProperty Property) const;
     void SetNumber(ENumberProperty Property, float Value) const;

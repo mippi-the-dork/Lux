@@ -36,6 +36,8 @@ public:
     bool GetUseTemperature() const;
     float GetTemperature() const;
     float GetSpecularScale() const;
+    float GetIndirectLightingIntensity() const;
+    bool GetAffectTranslucentLighting() const;
 
     void SetIntensity(float Value);
     void SetAttenuationRadius(float Value);
@@ -46,6 +48,8 @@ public:
     void SetUseTemperature(bool bValue);
     void SetTemperature(float Value);
     void SetSpecularScale(float Value);
+    void SetIndirectLightingIntensity(float Value);
+    void SetAffectTranslucentLighting(bool bValue);
 
     void ResetToProjectDefaults();
     void RefreshProjectLimits();

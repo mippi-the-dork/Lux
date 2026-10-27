@@ -27,6 +27,16 @@ void ULuxEditorSubsystem::Initialize(FSubsystemCollectionBase& Collection)
     {
         ResetToProjectDefaults();
     }
+    else if (CachedPreferences && !CachedPreferences->bInitializedAdvancedDefaults207)
+    {
+        // Existing Lux users keep all prior preferences. Only newly introduced
+        // values are initialized from the project's configured defaults.
+        const ULuxProjectSettings* Settings = ProjectSettings();
+        CachedPreferences->IndirectLightingIntensity = FMath::Clamp(Settings->DefaultIndirectLightingIntensity, 0.0f, 6.0f);
+        CachedPreferences->bAffectTranslucentLighting = Settings->bDefaultAffectTranslucentLighting;
+        CachedPreferences->bInitializedAdvancedDefaults207 = true;
+        MarkPreferencesDirty();
+    }
     RefreshProjectLimits();
     FWorldDelegates::OnWorldCleanup.AddUObject(this, &ULuxEditorSubsystem::HandleWorldCleanup);
 }
@@ -50,6 +60,8 @@ float ULuxEditorSubsystem::GetVolumetricScatteringIntensity() const { return Cac
 bool ULuxEditorSubsystem::GetUseTemperature() const { return CachedPreferences ? CachedPreferences->bUseTemperature : false; }
 float ULuxEditorSubsystem::GetTemperature() const { return CachedPreferences ? CachedPreferences->Temperature : 6500.0f; }
 float ULuxEditorSubsystem::GetSpecularScale() const { return CachedPreferences ? CachedPreferences->SpecularScale : 1.0f; }
+float ULuxEditorSubsystem::GetIndirectLightingIntensity() const { return CachedPreferences ? CachedPreferences->IndirectLightingIntensity : 1.0f; }
+bool ULuxEditorSubsystem::GetAffectTranslucentLighting() const { return CachedPreferences ? CachedPreferences->bAffectTranslucentLighting : true; }
 
 void ULuxEditorSubsystem::MarkPreferencesDirty()
 {
@@ -154,6 +166,24 @@ void ULuxEditorSubsystem::SetSpecularScale(float Value)
     if (IsValid(TransientLightComponent)) TransientLightComponent->SetSpecularScale(Value);
 }
 
+void ULuxEditorSubsystem::SetIndirectLightingIntensity(float Value)
+{
+    if (!CachedPreferences) return;
+    Value = FMath::Clamp(Value, 0.0f, 6.0f);
+    if (FMath::IsNearlyEqual(Value, CachedPreferences->IndirectLightingIntensity)) return;
+    CachedPreferences->IndirectLightingIntensity = Value;
+    MarkPreferencesDirty();
+    if (IsValid(TransientLightComponent)) TransientLightComponent->SetIndirectLightingIntensity(Value);
+}
+
+void ULuxEditorSubsystem::SetAffectTranslucentLighting(bool bValue)
+{
+    if (!CachedPreferences || CachedPreferences->bAffectTranslucentLighting == bValue) return;
+    CachedPreferences->bAffectTranslucentLighting = bValue;
+    MarkPreferencesDirty();
+    if (IsValid(TransientLightComponent)) TransientLightComponent->SetAffectTranslucentLighting(bValue);
+}
+
 void ULuxEditorSubsystem::ResetToProjectDefaults()
 {
     if (!CachedPreferences) return;
@@ -169,6 +199,9 @@ void ULuxEditorSubsystem::ResetToProjectDefaults()
     CachedPreferences->bUseTemperature = Settings->bDefaultUseTemperature;
     CachedPreferences->Temperature = FMath::Clamp(Settings->DefaultTemperature, 1000.0f, 20000.0f);
     CachedPreferences->SpecularScale = FMath::Clamp(Settings->DefaultSpecularScale, 0.0f, 1.0f);
+    CachedPreferences->IndirectLightingIntensity = FMath::Clamp(Settings->DefaultIndirectLightingIntensity, 0.0f, 6.0f);
+    CachedPreferences->bAffectTranslucentLighting = Settings->bDefaultAffectTranslucentLighting;
+    CachedPreferences->bInitializedAdvancedDefaults207 = true;
     MarkPreferencesDirty();
     ApplyLightSettings();
 }
@@ -232,6 +265,8 @@ void ULuxEditorSubsystem::ApplyLightSettings()
     TransientLightComponent->SetUseTemperature(GetUseTemperature());
     TransientLightComponent->SetTemperature(GetTemperature());
     TransientLightComponent->SetSpecularScale(GetSpecularScale());
+    TransientLightComponent->SetIndirectLightingIntensity(GetIndirectLightingIntensity());
+    TransientLightComponent->SetAffectTranslucentLighting(GetAffectTranslucentLighting());
 
     if (TransientLightComponent->IsRegistered() && GEditor)
     {

@@ -25,7 +25,8 @@ void ULuxProjectSettings::PostEditChangeProperty(FPropertyChangedEvent& Property
     DefaultAttenuationRadius = FMath::Clamp(DefaultAttenuationRadius, MinimumAttenuationRadius, MaximumAttenuationRadius);
 
     DefaultSourceRadius = FMath::Max(0.0f, DefaultSourceRadius);
-    DefaultVolumetricScatteringIntensity = FMath::Max(0.0f, DefaultVolumetricScatteringIntensity);
+    DefaultVolumetricScatteringIntensity = FMath::Clamp(DefaultVolumetricScatteringIntensity, 0.0f, 100.0f);
+    DefaultIndirectLightingIntensity = FMath::Clamp(DefaultIndirectLightingIntensity, 0.0f, 6.0f);
     DefaultTemperature = FMath::Clamp(DefaultTemperature, 1000.0f, 20000.0f);
     DefaultSpecularScale = FMath::Clamp(DefaultSpecularScale, 0.0f, 1.0f);
 

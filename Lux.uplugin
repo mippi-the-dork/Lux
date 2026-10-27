@@ -1,7 +1,7 @@
 {
     "FileVersion": 3,
-    "Version": 205,
-    "VersionName": "2.0.5",
+    "Version": 207,
+    "VersionName": "2.0.7",
     "FriendlyName": "Lux",
     "Description": "A native Level Editor viewport headlamp with a compact Slate toolbar control, live light adjustments, and configurable project defaults.",
     "Category": "Viewport",

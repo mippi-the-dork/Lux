@@ -22,4 +22,8 @@ public:
     UPROPERTY(Config) bool bUseTemperature = false;
     UPROPERTY(Config) float Temperature = 6500.0f;
     UPROPERTY(Config) float SpecularScale = 1.0f;
+    UPROPERTY(Config) float IndirectLightingIntensity = 1.0f;
+    UPROPERTY(Config) bool bAffectTranslucentLighting = true;
+    // Migrate existing 2.0 preferences without resetting the user's other properties.
+    UPROPERTY(Config) bool bInitializedAdvancedDefaults207 = false;
 };

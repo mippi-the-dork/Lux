@@ -19,7 +19,6 @@
 #include "Widgets/Input/SComboButton.h"
 #include "Widgets/Input/SNumericEntryBox.h"
 #include "Widgets/Layout/SBox.h"
-#include "Widgets/Layout/SExpandableArea.h"
 #include "Widgets/SBoxPanel.h"
 #include "Widgets/Images/SImage.h"
 #include "Widgets/Text/STextBlock.h"
@@ -28,13 +27,14 @@
 
 namespace
 {
-    // Property rows follow a compact Details-style two-column layout. The menu and
-    // section headings are provided by FMenuBuilder, not by custom Slate styling.
-    constexpr float ValueColumnWidth = 126.0f;
-    // A little wider than 2.0.2, so the full native Volumetric Scattering
-    // Intensity label fits without clipping at the normal editor font size.
-    constexpr float PropertyRowWidth = 370.0f;
-    const FMargin PropertyRowPadding(10.0f, 2.0f, 10.0f, 2.0f);
+    // Keep the widget rows visually close to the native viewport menus: fairly
+    // compact, lightly padded, and wide enough for the native property names.
+    constexpr float MainValueColumnWidth = 124.0f;
+    constexpr float MainPropertyRowWidth = 368.0f;
+    // The submenu is narrower, but still fits the complete Unreal property names.
+    constexpr float AdvancedValueColumnWidth = 104.0f;
+    constexpr float AdvancedPropertyRowWidth = 328.0f;
+    const FMargin PropertyRowPadding(8.0f, 2.0f, 8.0f, 2.0f);
 
     ULuxEditorSubsystem* FindLuxSubsystem()
     {
@@ -115,6 +115,7 @@ float SLuxViewportControl::GetNumber(ENumberProperty Property) const
     case ENumberProperty::AttenuationRadius: return Subsystem->GetAttenuationRadius();
     case ENumberProperty::SourceRadius: return Subsystem->GetSourceRadius();
     case ENumberProperty::Volumetric: return Subsystem->GetVolumetricScatteringIntensity();
+    case ENumberProperty::IndirectLighting: return Subsystem->GetIndirectLightingIntensity();
     case ENumberProperty::Temperature: return Subsystem->GetTemperature();
     case ENumberProperty::Specular: return Subsystem->GetSpecularScale();
     }
@@ -131,6 +132,7 @@ void SLuxViewportControl::SetNumber(ENumberProperty Property, float Value) const
     case ENumberProperty::AttenuationRadius: Subsystem->SetAttenuationRadius(Value); break;
     case ENumberProperty::SourceRadius: Subsystem->SetSourceRadius(Value); break;
     case ENumberProperty::Volumetric: Subsystem->SetVolumetricScatteringIntensity(Value); break;
+    case ENumberProperty::IndirectLighting: Subsystem->SetIndirectLightingIntensity(Value); break;
     case ENumberProperty::Temperature: Subsystem->SetTemperature(Value); break;
     case ENumberProperty::Specular: Subsystem->SetSpecularScale(Value); break;
     }
@@ -152,16 +154,17 @@ TOptional<float> SLuxViewportControl::GetMaximum(ENumberProperty Property) const
     if (Property == ENumberProperty::AttenuationRadius) return FMath::Max(Settings->MinimumAttenuationRadius, Settings->MaximumAttenuationRadius);
     if (Property == ENumberProperty::SourceRadius) return 10000.0f;
     if (Property == ENumberProperty::Volumetric) return 100.0f;
+    if (Property == ENumberProperty::IndirectLighting) return 6.0f;
     if (Property == ENumberProperty::Temperature) return 20000.0f;
     return 1.0f;
 }
 
-TSharedRef<SWidget> SLuxViewportControl::MakeNumberRow(const FText& Label, const FText& Tooltip, ENumberProperty Property)
+TSharedRef<SWidget> SLuxViewportControl::MakeNumberRow(const FText& Label, const FText& Tooltip, ENumberProperty Property, bool bAdvanced)
 {
     const bool bCentimeters = Property == ENumberProperty::AttenuationRadius || Property == ENumberProperty::SourceRadius;
     const bool bKelvin = Property == ENumberProperty::Temperature;
     return SNew(SBox)
-        .WidthOverride(PropertyRowWidth)
+        .WidthOverride(bAdvanced ? AdvancedPropertyRowWidth : MainPropertyRowWidth)
         .Padding(PropertyRowPadding)
         [
             SNew(SHorizontalBox)
@@ -177,7 +180,7 @@ TSharedRef<SWidget> SLuxViewportControl::MakeNumberRow(const FText& Label, const
             ]
             + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
             [
-                SNew(SBox).WidthOverride(ValueColumnWidth)
+                SNew(SBox).WidthOverride(bAdvanced ? AdvancedValueColumnWidth : MainValueColumnWidth)
                 [
                     SNew(SHorizontalBox)
                     + SHorizontalBox::Slot().FillWidth(1.0f).VAlign(VAlign_Center)
@@ -210,7 +213,7 @@ TSharedRef<SWidget> SLuxViewportControl::MakeNumberRow(const FText& Label, const
 TSharedRef<SWidget> SLuxViewportControl::MakeColorRow()
 {
     return SNew(SBox)
-        .WidthOverride(PropertyRowWidth)
+        .WidthOverride(MainPropertyRowWidth)
         .Padding(PropertyRowPadding)
         [
             SNew(SHorizontalBox)
@@ -222,10 +225,10 @@ TSharedRef<SWidget> SLuxViewportControl::MakeColorRow()
             ]
             + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
             [
-                SNew(SBox).WidthOverride(ValueColumnWidth).HAlign(HAlign_Left)
+                SNew(SBox).WidthOverride(MainValueColumnWidth).HAlign(HAlign_Left)
                 [
                     SNew(SColorBlock)
-                    .Size(FVector2D(ValueColumnWidth, 16.0f))
+                    .Size(FVector2D(MainValueColumnWidth, 18.0f))
                     .ShowBackgroundForAlpha(false)
                     .Color_Lambda([this]()
                     {
@@ -262,10 +265,10 @@ FReply SLuxViewportControl::OnColorClicked(const FGeometry& Geometry, const FPoi
     return FReply::Handled();
 }
 
-TSharedRef<SWidget> SLuxViewportControl::MakeBooleanRow(const FText& Label, const FText& Tooltip, EBooleanProperty Property)
+TSharedRef<SWidget> SLuxViewportControl::MakeBooleanRow(const FText& Label, const FText& Tooltip, EBooleanProperty Property, bool bAdvanced)
 {
     return SNew(SBox)
-        .WidthOverride(PropertyRowWidth)
+        .WidthOverride(bAdvanced ? AdvancedPropertyRowWidth : MainPropertyRowWidth)
         .Padding(PropertyRowPadding)
         [
             SNew(SHorizontalBox)
@@ -275,25 +278,33 @@ TSharedRef<SWidget> SLuxViewportControl::MakeBooleanRow(const FText& Label, cons
             ]
             + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
             [
-                SNew(SBox).WidthOverride(ValueColumnWidth).HAlign(HAlign_Left)
+                SNew(SBox).WidthOverride(bAdvanced ? AdvancedValueColumnWidth : MainValueColumnWidth).HAlign(HAlign_Left)
                 [
                     SNew(SCheckBox)
                     .IsChecked_Lambda([this, Property]()
                     {
                         const ULuxEditorSubsystem* Subsystem = GetSubsystem();
                         if (!Subsystem) return ECheckBoxState::Unchecked;
-                        const bool bChecked = Property == EBooleanProperty::CastShadows
-                            ? Subsystem->GetCastShadows() : Subsystem->GetUseTemperature();
+                        bool bChecked = false;
+                        switch (Property)
+                        {
+                        case EBooleanProperty::CastShadows: bChecked = Subsystem->GetCastShadows(); break;
+                        case EBooleanProperty::AffectTranslucentLighting: bChecked = Subsystem->GetAffectTranslucentLighting(); break;
+                        case EBooleanProperty::UseTemperature: bChecked = Subsystem->GetUseTemperature(); break;
+                        }
+
                         return bChecked ? ECheckBoxState::Checked : ECheckBoxState::Unchecked;
                     })
                     .OnCheckStateChanged_Lambda([this, Property](ECheckBoxState State)
                     {
                         if (ULuxEditorSubsystem* Subsystem = GetSubsystem())
                         {
-                            if (Property == EBooleanProperty::CastShadows)
-                                Subsystem->SetCastShadows(State == ECheckBoxState::Checked);
-                            else
-                                Subsystem->SetUseTemperature(State == ECheckBoxState::Checked);
+                            switch (Property)
+                            {
+                            case EBooleanProperty::CastShadows: Subsystem->SetCastShadows(State == ECheckBoxState::Checked); break;
+                            case EBooleanProperty::AffectTranslucentLighting: Subsystem->SetAffectTranslucentLighting(State == ECheckBoxState::Checked); break;
+                            case EBooleanProperty::UseTemperature: Subsystem->SetUseTemperature(State == ECheckBoxState::Checked); break;
+                            }
                         }
                     })
                     .ToolTipText(Tooltip)
@@ -302,27 +313,44 @@ TSharedRef<SWidget> SLuxViewportControl::MakeBooleanRow(const FText& Label, cons
         ];
 }
 
-TSharedRef<SWidget> SLuxViewportControl::MakeAdvancedContent()
+void SLuxViewportControl::PopulateAdvancedMenu(FMenuBuilder& MenuBuilder)
 {
-    return SNew(SVerticalBox)
-        + SVerticalBox::Slot().AutoHeight()
-        [ MakeBooleanRow(LOCTEXT("UseTemperature", "Use Temperature"),
-            LOCTEXT("UseTemperatureTooltip", "Multiply Light Color by a blackbody temperature tint."),
-            EBooleanProperty::UseTemperature) ]
-        + SVerticalBox::Slot().AutoHeight()
-        [ MakeNumberRow(LOCTEXT("Temperature", "Temperature"),
-            LOCTEXT("TemperatureTooltip", "Color temperature in Kelvin when Use Temperature is enabled."),
-            ENumberProperty::Temperature) ]
-        + SVerticalBox::Slot().AutoHeight()
-        [ MakeNumberRow(LOCTEXT("Specular", "Specular Scale"),
-            LOCTEXT("SpecularTooltip", "Multiplier for specular reflections produced by the headlamp (0 to 1)."),
-            ENumberProperty::Specular) ];
+    // Native submenu sections clarify related properties without repeating the
+    // word "Advanced" as an unnecessary secondary heading.
+    MenuBuilder.BeginSection(NAME_None, LOCTEXT("AdvancedLightingSection", "Lighting"));
+    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("SourceRadius", "Source Radius"),
+        LOCTEXT("SourceRadiusTooltip", "Physical radius of the light source, affecting highlights and supported shadow methods."),
+        ENumberProperty::SourceRadius, true), FText::GetEmpty(), true, false);
+    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("Volumetric", "Volumetric Scattering Intensity"),
+        LOCTEXT("VolumetricTooltip", "Controls how strongly the headlamp contributes to volumetric fog."),
+        ENumberProperty::Volumetric, true), FText::GetEmpty(), true, false);
+    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("Indirect", "Indirect Lighting Intensity"),
+        LOCTEXT("IndirectTooltip", "Multiplier for indirect lighting from Lux, where supported by the scene's lighting and renderer. 0 disables its indirect contribution."),
+        ENumberProperty::IndirectLighting, true), FText::GetEmpty(), true, false);
+    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("Specular", "Specular Scale"),
+        LOCTEXT("SpecularTooltip", "Multiplier for specular reflections produced by the headlamp (0 to 1)."),
+        ENumberProperty::Specular, true), FText::GetEmpty(), true, false);
+    MenuBuilder.AddWidget(MakeBooleanRow(LOCTEXT("AffectTranslucent", "Affect Translucent Lighting"),
+        LOCTEXT("AffectTranslucentTooltip", "Controls Lux's contribution to supported translucent materials. May affect lighting performance."),
+        EBooleanProperty::AffectTranslucentLighting, true), FText::GetEmpty(), true, false);
+    MenuBuilder.EndSection();
+
+    MenuBuilder.BeginSection(NAME_None, LOCTEXT("TemperatureSection", "Temperature"));
+    MenuBuilder.AddWidget(MakeBooleanRow(LOCTEXT("UseTemperature", "Use Temperature"),
+        LOCTEXT("UseTemperatureTooltip", "Multiply Light Color by a blackbody temperature tint."),
+        EBooleanProperty::UseTemperature, true), FText::GetEmpty(), true, false);
+    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("Temperature", "Temperature"),
+        LOCTEXT("TemperatureTooltip", "Color temperature in Kelvin when Use Temperature is enabled."),
+        ENumberProperty::Temperature, true), FText::GetEmpty(), true, false);
+    MenuBuilder.EndSection();
 }
 
 TSharedRef<SWidget> SLuxViewportControl::MakeSettingsMenu()
 {
-    // Native MultiBox sections, separators, and actionable menu entries. The
-    // property editors remain native Slate widgets with Details-like alignment.
+    // Native MultiBox sections, submenus, separators, and actionable menu
+    // entries. The property editors remain native Slate widgets with
+    // Details-like alignment, but the overall menu structure follows the
+    // viewport toolbar's native menu grammar.
     FMenuBuilder MenuBuilder(true, nullptr);
 
     MenuBuilder.BeginSection(NAME_None, LOCTEXT("HeadlampSection", "Headlamp"));
@@ -338,25 +366,14 @@ TSharedRef<SWidget> SLuxViewportControl::MakeSettingsMenu()
         EBooleanProperty::CastShadows), FText::GetEmpty(), true, false);
     MenuBuilder.EndSection();
 
-    MenuBuilder.BeginSection(NAME_None, LOCTEXT("AdditionalProperties", "Additional Properties"));
-    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("SourceRadius", "Source Radius"),
-        LOCTEXT("SourceRadiusTooltip", "Physical radius of the light source, affecting highlights and supported shadow methods."),
-        ENumberProperty::SourceRadius), FText::GetEmpty(), true, false);
-    MenuBuilder.AddWidget(MakeNumberRow(LOCTEXT("Volumetric", "Volumetric Scattering Intensity"),
-        LOCTEXT("VolumetricTooltip", "Controls how strongly the headlamp contributes to volumetric fog."),
-        ENumberProperty::Volumetric), FText::GetEmpty(), true, false);
-    MenuBuilder.AddWidget(
-        SNew(SBox)
-        .WidthOverride(PropertyRowWidth)
-        .Padding(FMargin(6.0f, 3.0f))
-        [
-            SNew(SExpandableArea)
-            .AreaTitle(LOCTEXT("Advanced", "Advanced"))
-            .InitiallyCollapsed(true)
-            .BodyContent()
-            [ MakeAdvancedContent() ]
-        ], FText::GetEmpty(), true, false);
-    MenuBuilder.EndSection();
+    // Advanced contains all secondary controls, rather than splitting them
+    // between an "Additional Properties" section and a separate submenu.
+    MenuBuilder.AddSubMenu(
+        LOCTEXT("Advanced", "Advanced"),
+        LOCTEXT("AdvancedTooltip", "Open additional Lux headlamp properties."),
+        FNewMenuDelegate::CreateSP(this, &SLuxViewportControl::PopulateAdvancedMenu),
+        false,
+        FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Settings"));
 
     // Native separation of editable properties from commands.
     MenuBuilder.AddMenuSeparator();
