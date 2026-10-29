@@ -29,9 +29,13 @@ namespace
 {
     // Keep the widget rows visually close to the native viewport menus: fairly
     // compact, lightly padded, and wide enough for the native property names.
+    // Keep the everyday controls close to the width of other native viewport
+    // menus. Use a separate width for Advanced because its labels are longer.
+    // Preserve the numeric field widths and label/value column alignment.
     constexpr float MainValueColumnWidth = 124.0f;
-    constexpr float MainPropertyRowWidth = 368.0f;
-    // The submenu is narrower, but still fits the complete Unreal property names.
+    constexpr float MainPropertyRowWidth = 320.0f;
+    // Longer Advanced property names need more horizontal space than the
+    // everyday controls, and must not make the main flyout any wider.
     constexpr float AdvancedValueColumnWidth = 104.0f;
     constexpr float AdvancedPropertyRowWidth = 328.0f;
     const FMargin PropertyRowPadding(8.0f, 2.0f, 8.0f, 2.0f);
@@ -49,57 +53,75 @@ ULuxEditorSubsystem* SLuxViewportControl::GetSubsystem() const
 
 void SLuxViewportControl::Construct(const FArguments& InArgs)
 {
+    // Retain native editor Slate styling but tighten the gap between the
+    // toolbar icon and arrow. Both halves share one explicit visual height.
+    // Copy the combo style so its arrow padding is local to Lux only.
+    constexpr float ToolbarControlHeight = 24.0f;
+    const FButtonStyle& ToolbarButtonStyle = FAppStyle::Get().GetWidgetStyle<FButtonStyle>("SimpleButton");
+    CompactDropdownStyle = FAppStyle::Get().GetWidgetStyle<FComboButtonStyle>("ComboButton");
+    CompactDropdownStyle.SetButtonStyle(ToolbarButtonStyle);
+    CompactDropdownStyle.SetContentPadding(FMargin(0.0f));
+    CompactDropdownStyle.SetDownArrowPadding(FMargin(2.0f, 0.0f, 3.0f, 0.0f));
+
     ChildSlot
     [
         SNew(SHorizontalBox)
         + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
         [
-            // Native simple button instead of a ToggleButtonCheckbox. The latter
-            // paints a blue checked background, which obscures the blue SVG.
-            // Here the icon alone conveys the on/off state; hover, press, focus
-            // and keyboard activation still come from the standard editor button.
-            SNew(SButton)
-            .ButtonStyle(&FAppStyle::Get().GetWidgetStyle<FButtonStyle>("SimpleButton"))
-            .ContentPadding(FMargin(5.0f, 3.0f))
-            .ToolTipText_Lambda([this]()
-            {
-                const ULuxEditorSubsystem* Subsystem = GetSubsystem();
-                return Subsystem && Subsystem->IsHeadlampActive()
-                    ? LOCTEXT("DisableHeadlamp", "Lux: Disable editor headlamp")
-                    : LOCTEXT("EnableHeadlamp", "Lux: Enable editor headlamp");
-            })
-            .OnClicked_Lambda([this]() -> FReply
-            {
-                if (ULuxEditorSubsystem* Subsystem = GetSubsystem())
-                {
-                    Subsystem->SetHeadlampState(!Subsystem->IsHeadlampActive());
-                }
-                return FReply::Handled();
-            })
+            SNew(SBox)
+            .HeightOverride(ToolbarControlHeight)
             [
-                SNew(SImage)
-                .Image(FLuxStyle::GetToolbarIcon())
-                .ColorAndOpacity_Lambda([this]() -> FSlateColor
+                // Preserve independent native hover/pressed behavior: clicking
+                // the SVG toggles Lux, while the neighboring arrow opens settings.
+                SNew(SButton)
+                .ButtonStyle(&ToolbarButtonStyle)
+                .ContentPadding(FMargin(3.0f, 3.0f, 1.0f, 3.0f))
+                .ToolTipText_Lambda([this]()
                 {
                     const ULuxEditorSubsystem* Subsystem = GetSubsystem();
-                    return FSlateColor(Subsystem && Subsystem->IsHeadlampActive()
-                        ? EStyleColor::AccentBlue : EStyleColor::Foreground);
+                    return Subsystem && Subsystem->IsHeadlampActive()
+                        ? LOCTEXT("DisableHeadlamp", "Lux: Disable editor headlamp")
+                        : LOCTEXT("EnableHeadlamp", "Lux: Enable editor headlamp");
                 })
+                .OnClicked_Lambda([this]() -> FReply
+                {
+                    if (ULuxEditorSubsystem* Subsystem = GetSubsystem())
+                    {
+                        Subsystem->SetHeadlampState(!Subsystem->IsHeadlampActive());
+                    }
+                    return FReply::Handled();
+                })
+                [
+                    SNew(SImage)
+                    .Image(FLuxStyle::GetToolbarIcon())
+                    .ColorAndOpacity_Lambda([this]() -> FSlateColor
+                    {
+                        const ULuxEditorSubsystem* Subsystem = GetSubsystem();
+                        return FSlateColor(Subsystem && Subsystem->IsHeadlampActive()
+                            ? EStyleColor::AccentBlue : EStyleColor::Foreground);
+                    })
+                ]
             ]
         ]
         + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
         [
-            SNew(SComboButton)
-            .ButtonStyle(&FAppStyle::Get().GetWidgetStyle<FButtonStyle>("SimpleButton"))
-            .ToolTipText(LOCTEXT("SettingsTooltip", "Lux headlamp settings"))
-            .ContentPadding(FMargin(0.0f, 0.0f))
-            .HasDownArrow(true)
-            .OnGetMenuContent(this, &SLuxViewportControl::MakeSettingsMenu)
-            .ButtonContent()
+            SNew(SBox)
+            .HeightOverride(ToolbarControlHeight)
             [
-                SNew(SBox)
-                .WidthOverride(2.0f)
-                .HeightOverride(16.0f)
+                SNew(SComboButton)
+                .ComboButtonStyle(&CompactDropdownStyle)
+                .ContentPadding(FMargin(0.0f))
+                .ToolTipText(LOCTEXT("SettingsTooltip", "Lux headlamp settings"))
+                .HasDownArrow(true)
+                .OnGetMenuContent(this, &SLuxViewportControl::MakeSettingsMenu)
+                .ButtonContent()
+                [
+                    // The native arrow is supplied by the FComboButtonStyle;
+                    // this slot only ensures a consistent vertical center.
+                    SNew(SBox)
+                    .WidthOverride(0.0f)
+                    .HeightOverride(16.0f)
+                ]
             ]
         ]
     ];

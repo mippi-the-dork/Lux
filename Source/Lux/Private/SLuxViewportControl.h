@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Styling/SlateTypes.h"
 #include "Widgets/SCompoundWidget.h"
 
 class FMenuBuilder;
@@ -18,6 +19,10 @@ public:
     void Construct(const FArguments& InArgs);
 
 private:
+    // The native combo style is copied per widget so we can tighten arrow
+    // padding without changing the global Unreal Editor style.
+    FComboButtonStyle CompactDropdownStyle;
+
     enum class ENumberProperty : uint8
     {
         Intensity, AttenuationRadius, SourceRadius, Volumetric, IndirectLighting, Temperature, Specular
