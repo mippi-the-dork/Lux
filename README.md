@@ -12,6 +12,7 @@ Lux is an **editor-only** utility. It does not add a gameplay lighting system or
 ![Version](https://img.shields.io/badge/Version-2.0.10-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+![Lux Hero Image](Doc/Images/Lux-Hero.png)
 ![The same dark editor scene with Lux disabled on the left and enabled on the right](Doc/Images/Lux-Headlamp-Comparison.png)
 
 *The same Level Editor scene with Lux disabled (left) and enabled (right). The lighting is temporary and is not saved with the level.*
