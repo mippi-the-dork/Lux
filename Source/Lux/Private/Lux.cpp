@@ -1,4 +1,5 @@
-// Copyright Mippithedork 2026, Inc. All Rights Reserved.
+﻿// Copyright Mippithedork 2026, Inc. All Rights Reserved.
+
 #include "Lux.h"
 #include "LuxStyle.h"
 #include "LuxViewportTracker.h"

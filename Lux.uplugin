@@ -1,24 +1,28 @@
 {
-    "FileVersion": 3,
-    "Version": 210,
-    "VersionName": "2.0.10",
-    "FriendlyName": "Lux",
-    "Description": "A native Level Editor viewport headlamp with a compact Slate toolbar control, live light adjustments, and configurable project defaults.",
-    "Category": "Viewport",
-    "CreatedBy": "Mippithedork",
-    "EngineVersion": "5.8.0",
-    "CanContainContent": false,
-    "IsBetaVersion": false,
-    "IsExperimentalVersion": false,
-    "Installed": false,
-    "Modules": [
-        {
-            "Name": "Lux",
-            "Type": "Editor",
-            "LoadingPhase": "PostEngineInit",
-            "PlatformAllowList": [
-                "Win64"
-            ]
-        }
-    ]
+	"FileVersion": 3,
+	"Version": 210,
+	"VersionName": "2.0.10",
+	"FriendlyName": "Lux",
+	"Description": "A native Level Editor viewport headlamp with a compact Slate toolbar control, live light adjustments, and configurable project defaults.",
+	"Category": "Viewport",
+	"CreatedBy": "Mippithedork",
+	"EngineVersion": "5.8.0",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Lux",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		}
+	],
+	"CreatedByURL": "https://github.com/mippi-the-dork",
+	"DocsURL": "https://github.com/mippi-the-dork/Lux",
+	"MarketplaceURL": "https://www.fab.com/listings/1e650e52-7265-44db-a8a5-65b8343df176",
+	"SupportURL": "https://github.com/mippi-the-dork/Lux/issues"
 }
