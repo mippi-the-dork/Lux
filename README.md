@@ -13,9 +13,6 @@ Lux is an **editor-only** utility. It does not add a gameplay lighting system or
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ![Lux Hero Image](Doc/Images/Lux-Hero.png)
-![The same dark editor scene with Lux disabled on the left and enabled on the right](Doc/Images/Lux-Headlamp-Comparison.png)
-
-*The same Level Editor scene with Lux disabled (left) and enabled (right). The lighting is temporary and is not saved with the level.*
 
 ---
 
@@ -29,6 +26,10 @@ Lux is a camera-following **movable point light** for inspecting levels as you w
 - **Access secondary controls when needed.** Advanced provides source radius, volumetric and indirect contribution, specular, translucent lighting, and color temperature.
 - **Set project defaults and personal preferences separately.** Project Settings define defaults and the allowed intensity/radius ranges; your last-used headlamp values are stored as editor user preferences.
 - **Keep the level unchanged.** Lux manages a transient light component in the Editor world rather than adding a persistent Actor.
+
+![The same dark editor scene with Lux disabled on the left and enabled on the right](Doc/Images/Lux-Headlamp-Comparison.png)
+
+*The same Level Editor scene with Lux disabled (left) and enabled (right). The lighting is temporary and is not saved with the level.*
 
 ---
 
