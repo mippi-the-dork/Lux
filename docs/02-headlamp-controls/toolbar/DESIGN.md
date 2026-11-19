@@ -4,6 +4,10 @@
 
 ## Find the Lux control
 
+![Lux viewport toolbar controls](https://raw.githubusercontent.com/mippi-the-dork/Lux/main/Doc/Images/Lux-Controls.png)
+
+*Lux appears alongside Unreal's native viewport toolbar controls with independent light toggle and settings targets.*
+
 Lux is the **first item in the right-anchored group** of Level Editor viewport toolbar controls. Its icon and neighboring arrow are two distinct click targets.
 
 | Click | Result |

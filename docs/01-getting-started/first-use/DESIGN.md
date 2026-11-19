@@ -13,10 +13,9 @@
 7. Click **Light Color** to open Unreal's color picker, or toggle **Cast Shadows**.
 8. Click the Lux icon again to return to the level's authored illumination.
 
-<figure class="doc-media" data-kind="gif" data-media-id="first-use-toggle">
-<img src="../../../assets/media-placeholder.png" alt="Animated demonstration of Lux enabling and disabling." loading="lazy">
-<figcaption>The Lux toolbar icon enables or disables a temporary editor headlamp without changing the level.<span class="media-capture-instructions"><strong>Capture instructions · GIF:</strong> Record a short loop in the same dark perspective viewport showing a gray Lux icon, click to Accent Blue with nearby geometry illuminated, move the camera a little, then click again to turn it gray and restore the original view.</span></figcaption>
-</figure>
+![Lux headlamp activation and deactivation](https://raw.githubusercontent.com/mippi-the-dork/Lux/main/Doc/Images/Lux-Toggle.gif)
+
+*The Lux icon turns the temporary editor headlamp on and off while the existing scene lighting remains unchanged.*
 
 ## Read the split control correctly
 

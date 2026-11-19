@@ -6,6 +6,12 @@
 
 ## At a glance
 
+<figure class="doc-media" data-kind="image" data-media-id="roadmap-timeline">
+<img src="assets/media-placeholder.png" alt="Lux current release and proposed future roadmap timeline" loading="lazy">
+<figcaption>Lux's roadmap distinguishes the current documented release from uncommitted future opportunities.<span class="media-capture-instructions"><strong>Capture instructions · Image:</strong> Create a clean timeline with Lux v2.0.10 marked Released, historical milestones explicitly marked Unverified, and future directions marked Not Scheduled. Do not assign unsupported v1/v2 release claims or dates.</span></figcaption>
+</figure>
+
+
 | Milestone | Status | Scope |
 | --- | --- | --- |
 | **Lux v2.0.10** | Released · current documented version | Native Level Editor headlamp, camera following, everyday/Advanced properties, project defaults, personal preferences |
@@ -28,6 +34,11 @@ The following are **research directions**, not approved roadmap deliverables:
 - **Performance:** Measure the effect of large attenuation radii and supported dynamic shadows on representative projects before changing their UI or default policies.
 
 Any selected feature should preserve Lux's editor-only, native Slate, minimal-footprint design, and avoid editing Unreal Engine source.
+
+<figure class="doc-media" data-kind="image" data-media-id="roadmap-future">
+<img src="assets/media-placeholder.png" alt="Conceptual examples of future Lux inspection workflow areas" loading="lazy">
+<figcaption>Future Lux research may focus on faster inspection workflows, clearer viewport targeting and more predictable rendering feedback.<span class="media-capture-instructions"><strong>Capture instructions · Image:</strong> Make a labeled three-column concept diagram for Inspection Workflows, Viewport Clarity and Rendering Guidance. Use conceptual icons or neutral diagrams only, not fabricated screenshots or a mockup implying these features ship today.</span></figcaption>
+</figure>
 
 ## Acceptance criteria for future changes
 

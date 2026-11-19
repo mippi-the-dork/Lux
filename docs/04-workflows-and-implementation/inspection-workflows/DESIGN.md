@@ -15,6 +15,14 @@
 
 *The headlamp can reveal geometry in dark spaces without modifying the scene's authored lights.*
 
+![Lux disabled in the Level Editor](https://raw.githubusercontent.com/mippi-the-dork/Lux/main/Doc/Images/Lux-Off.png)
+
+*With Lux off, the viewport shows the scene without the temporary inspection light.*
+
+![Lux enabled in the Level Editor](https://raw.githubusercontent.com/mippi-the-dork/Lux/main/Doc/Images/Lux-On.png)
+
+*Enabling Lux illuminates nearby geometry while preserving the original authored lights and materials.*
+
 ## Workflow 2: examine occlusion and shadows
 
 Keep camera and light color fixed. Toggle **Cast Shadows** off and on. If illumination changes significantly, nearby geometry may be blocking the point light; if not, confirm that the renderer and surface setup support the expected shadow behavior.
