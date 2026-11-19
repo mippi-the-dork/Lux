@@ -1,135 +1,136 @@
 # Lux
 
-### See the level. Leave its lighting alone.
+**Level Editor Headlamp for Unreal Engine**
 
-**A camera-following headlamp for Unreal Engine's Level Editor.**
+**See the level you're building without changing its lighting.**
 
-You've built a dark corridor, an unlit room, or an environment that's still waiting for its lighting pass. You need to examine the geometry and materials—but adding a temporary Light Actor, changing exposure, or turning up your authored lights means disrupting the very scene you're working on.
+Lux adds a configurable, camera-following headlamp directly to Unreal Engine's **Level Editor viewport toolbar**. Illuminate dark interiors, inspect geometry and materials, and move through unlit environments without placing temporary Light Actors or changing the scene's authored lighting.
 
-**Lux puts an inspection light exactly where you need it: at your editor camera.** Turn it on, move through your level, adjust the light, then turn it off. Your authored lighting stays as you left it.
+[![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.8.x-black?logo=unrealengine)](https://www.unrealengine.com/) ![Platform](https://img.shields.io/badge/Platform-Win64-blue) ![Editor Only](https://img.shields.io/badge/Plugin-Editor%20Only-217346) ![Version](https://img.shields.io/badge/Lux-v2.0.10-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-![Unreal Engine](https://img.shields.io/badge/Unreal%20Engine-5.8.x-black?logo=unrealengine)
-![Platform](https://img.shields.io/badge/Platform-Win64-blue)
-![Type](https://img.shields.io/badge/Plugin-Editor--only-green)
-![Version](https://img.shields.io/badge/Version-2.0.10-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
-
-![Lux — Level Editor Headlamp](Doc/Images/Lux-Hero.png)
+<p align="center">
+  <img src="Doc/Images/Lux-Hero.png" alt="Lux camera-following headlamp in the Unreal Engine Level Editor" width="100%">
+</p>
 
 ---
 
-## Light up your workspace, not your level
+## Dark levels shouldn't slow you down
 
-![Same scene with Lux disabled and enabled](Doc/Images/Lux-Headlamp-Comparison.png)
+You need to inspect a room before its lighting pass, find a problem inside a dark corridor, or check how a material responds to light. Turning up scene lights or adding temporary Light Actors works, but it also creates changes you have to manage or undo before getting back to the level you're actually building.
 
-*Reveal the geometry you need to inspect without placing a light or changing the lighting you're creating.*
+**Lux gives you the light you need for inspection, without touching the lights you author.**
 
-**Lux is useful when you need to:**
+- **Navigate dark environments.** Keep nearby geometry visible as you move the perspective Level Editor camera.
+- **Skip temporary Light Actors.** The headlamp is a transient Editor component, not another object to place, save, or remove from the level.
+- **Keep controls close.** Toggle Lux from the native viewport toolbar and adjust its properties in the neighboring dropdown.
+- **Inspect the details.** Change brightness, reach, color, shadows, and supported advanced point-light effects when examining your scene.
+- **Work with your own preferences.** Project defaults and allowed ranges are shared, while personal headlamp settings can stay yours.
+- **Return to authored lighting instantly.** Turn Lux off to see the level without the inspection light.
 
-- **Navigate dark spaces** without interrupting the level's lighting setup.
-- **Inspect geometry and materials** before the final lighting pass.
-- **Check shadows and surface response** using a temporary, adjustable light.
-- **Look at fog, translucency, and specular highlights** with additional point-light controls where supported by your renderer.
-- **Switch between perspective Level Editor viewports** without placing or repositioning a Light Actor.
-- **Return to the original look immediately** by switching Lux off.
+<p align="center">
+  <img src="Doc/Images/Lux-Headlamp-Comparison.png" alt="The same dark Unreal Editor scene compared with the Lux headlamp disabled and enabled" width="860">
+</p>
 
-No extra scene setup. No Light Actor to find and remove later. No gameplay lighting system to package.
+## Explore the documentation
 
-## Everything you need, right in the viewport
+> ### [**Lux Documentation — Full User Guide and Technical Reference**](https://mippi-the-dork.github.io/Lux/)
+>
+> **Everything you need to understand and use Lux, in one place.** Get started, explore every headlamp property, learn how viewport following and user preferences behave, or find technical details and troubleshooting steps.
+>
+> **[Get Started](https://mippi-the-dork.github.io/Lux/?page=01-getting-started%2FREADME.md)** · **[Headlamp Controls](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2FREADME.md)** · **[Settings & Preferences](https://mippi-the-dork.github.io/Lux/?page=03-settings-and-preferences%2FREADME.md)** · **[Troubleshooting](https://mippi-the-dork.github.io/Lux/?page=05-support-and-troubleshooting%2FREADME.md)**
 
-![Lux native viewport controls](Doc/Images/Lux-Controls.png)
+This README introduces what Lux offers. **The [documentation website](https://mippi-the-dork.github.io/Lux/) is the maintained reference for installation, exact controls, viewport behavior, workflows, and technical implementation.**
 
-Lux lives in the **right-anchored Level Editor viewport toolbar** and uses Unreal's native Slate controls. The compact icon and dropdown are separate:
+## One headlamp. All the controls you need.
 
-- **Click the icon** to enable or disable the headlamp. Gray means off; Unreal's Accent Blue means on.
-- **Click the arrow** to adjust the light without toggling it.
+Click the **Lux icon** to toggle the light. The icon is gray when disabled and Unreal's Accent Blue when active. Click the **separate dropdown arrow** to adjust its properties without toggling the headlamp.
 
-The headlamp follows the position of the perspective Level Editor camera you're using. It is a **movable point light**, so it illuminates in every direction rather than projecting a directional flashlight beam.
+<p align="center">
+  <img src="Doc/Images/Lux-Controls.png" alt="Lux icon and separate settings arrow in the Unreal Engine Level Editor viewport toolbar" width="860">
+</p>
 
-[![Lux enabled in the Level Editor — open the toggle demonstration](Doc/Images/Lux-On.png)](Doc/Images/Lux-Toggle.gif)
-
-*See Lux illuminating a dark scene. Select the image to watch the headlamp toggle demonstration.*
-
-### Make the light your own
-
-![Lux light settings and Advanced submenu](Doc/Images/Lux-Settings.png)
-
-| Everyday controls | What they let you do |
+| Headlamp controls | What you can do |
 | --- | --- |
-| **Intensity** | Brighten or dim the headlamp |
-| **Attenuation Radius** | Decide how far the light reaches |
-| **Light Color** | Inspect the scene with a chosen light tint |
-| **Cast Shadows** | Enable or disable supported dynamic shadows |
+| **[Intensity](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Feveryday%2FDESIGN.md)** | Brighten or dim the temporary light. |
+| **[Attenuation Radius](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Feveryday%2FDESIGN.md)** | Control how far its illumination reaches. |
+| **[Light Color](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Feveryday%2FDESIGN.md)** | Tint the inspection light without changing your material or level lights. |
+| **[Cast Shadows](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Feveryday%2FDESIGN.md)** | Enable or disable supported dynamic point-light shadows. |
+| **[Advanced Lighting](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Fadvanced-lighting%2FDESIGN.md)** | Adjust Source Radius, volumetric scattering, indirect lighting, specular response, and translucent lighting contribution. |
+| **[Color Temperature](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Ftemperature%2FDESIGN.md)** | Enable temperature tint and choose a Kelvin value for warmer or cooler illumination. |
 
-Need finer control? **Advanced** adds Source Radius, Volumetric Scattering Intensity, Indirect Lighting Intensity, Specular Scale, Affect Translucent Lighting, and color temperature controls.
+Lux uses **native Slate controls**, including numeric scrubbing, a color picker, and checkboxes. The same light follows the most recently interacted eligible perspective Level Editor camera.
 
-You can also set **project-wide defaults and allowable intensity/radius ranges**, while individual developers keep their own preferred light values. The headlamp starts **off** each time Unreal Editor launches.
+## Useful in real production workflows
 
-## Documentation — everything about Lux
+### See dark spaces before they're lit
 
-**The [Lux Documentation Website](https://mippi-the-dork.github.io/Lux/) is the complete guide**, including installation, every setting, editor behavior, examples, troubleshooting, and source-level technical explanations.
+Keep working in an unlit room or corridor without adjusting your authored lights. Set a comfortable Intensity and Attenuation Radius, then navigate the environment with the light following the editor camera.
 
-This README is an introduction to what Lux can do. For instructions, expected behavior, and technical details, use the dedicated documentation:
+<p align="center">
+  <a href="Doc/Images/Lux-Toggle.gif">
+    <img src="Doc/Images/Lux-On.png" alt="Lux illuminating a dark level in the Unreal Editor; click to see the on/off demonstration" width="800">
+  </a>
+</p>
 
-| What you want to learn | Read this |
-| --- | --- |
-| **Install Lux and get started** | [Installation and compatibility](https://mippi-the-dork.github.io/Lux/?page=01-getting-started%2Finstall%2FDESIGN.md) · [First use](https://mippi-the-dork.github.io/Lux/?page=01-getting-started%2Ffirst-use%2FDESIGN.md) |
-| **Find the toolbar and understand the toggle** | [Toolbar and Headlamp Toggle](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Ftoolbar%2FDESIGN.md) |
-| **Adjust brightness, reach, color, and shadows** | [Everyday Light Controls](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Feveryday%2FDESIGN.md) |
-| **Use the advanced lighting and temperature settings** | [Advanced Lighting](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Fadvanced-lighting%2FDESIGN.md) · [Color Temperature](https://mippi-the-dork.github.io/Lux/?page=02-headlamp-controls%2Ftemperature%2FDESIGN.md) |
-| **Customize project defaults and personal preferences** | [Project Defaults](https://mippi-the-dork.github.io/Lux/?page=03-settings-and-preferences%2Fproject-defaults%2FDESIGN.md) · [Per-User Preferences](https://mippi-the-dork.github.io/Lux/?page=03-settings-and-preferences%2Fuser-preferences%2FDESIGN.md) |
-| **Understand multi-viewport behavior** | [Viewport Following](https://mippi-the-dork.github.io/Lux/?page=04-workflows-and-implementation%2Fviewports%2FDESIGN.md) |
-| **See real inspection workflows** | [Lighting Inspection Workflows](https://mippi-the-dork.github.io/Lux/?page=04-workflows-and-implementation%2Finspection-workflows%2FDESIGN.md) |
-| **Solve an issue or see the implementation** | [Troubleshooting](https://mippi-the-dork.github.io/Lux/?page=05-support-and-troubleshooting%2Ftroubleshooting%2FDESIGN.md) · [Technical Architecture](https://mippi-the-dork.github.io/Lux/?page=04-workflows-and-implementation%2Farchitecture%2FTECHNICAL.md) |
+*Select the image to watch the headlamp toggle demonstration.*
 
-**[Explore the full Lux documentation →](https://mippi-the-dork.github.io/Lux/)**
+### Inspect materials and lighting response
+
+Use neutral Light Color to evaluate surface response, toggle Cast Shadows to examine occlusion, or explore Advanced properties such as Source Radius and Specular Scale. Volumetric, indirect, and translucent effects depend on the renderer and scene setup.
+
+<p align="center">
+  <img src="Doc/Images/Lux-Settings.png" alt="Lux native point-light settings in the Editor viewport dropdown" width="800">
+</p>
+
+### Work across perspective viewports
+
+Lux follows the perspective **Level Editor viewport you're working in**. Interact with another eligible perspective viewport to change the camera it tracks. It uses one point light in the shared Editor world, so another lit viewport may still show illumination from that same light.
+
+[**Learn how Lux chooses a viewport →**](https://mippi-the-dork.github.io/Lux/?page=04-workflows-and-implementation%2Fviewports%2FDESIGN.md)
+
+### Keep preferences without changing your level
+
+Set project-wide default values and allowed ranges for Intensity and Attenuation Radius. Each editor user can keep their own chosen headlamp values, or choose **Reset to Project Defaults**. Lux starts disabled when the Editor launches, regardless of those saved preferences.
+
+[**Learn how project defaults and user settings work →**](https://mippi-the-dork.github.io/Lux/?page=03-settings-and-preferences%2FREADME.md)
 
 ## Get Lux
 
-Lux v2.0.10 is an **editor-only plugin for Unreal Engine 5.8.x on Windows 64-bit**.
+**Lux v2.0.10** targets **Unreal Engine 5.8.x on Windows 64-bit** and runs in the **Editor only**.
 
-- **[Fab](https://www.fab.com/listings/1e650e52-7265-44db-a8a5-65b8343df176)** — plugin listing.
-- **[GitHub Releases](https://github.com/mippi-the-dork/Lux/releases)** — download available releases.
-- **[Source code](https://github.com/mippi-the-dork/Lux)** — inspect, clone, or build from source.
+Choose a compatible release or install through Fab where available. Developers can also build from the full source code.
 
-For installation methods, engine compatibility, and updates, see the [installation guide](https://mippi-the-dork.github.io/Lux/?page=01-getting-started%2Finstall%2FDESIGN.md).
+**[View on Fab](https://www.fab.com/listings/1e650e52-7265-44db-a8a5-65b8343df176)** · **[Download GitHub Releases](https://github.com/mippi-the-dork/Lux/releases)** · **[Installation Guide](https://mippi-the-dork.github.io/Lux/?page=01-getting-started%2Finstall%2FDESIGN.md)** · **[First Use](https://mippi-the-dork.github.io/Lux/?page=01-getting-started%2Ffirst-use%2FDESIGN.md)**
 
-## What Lux doesn't do
+## Important limitations
 
-Lux is a **lighting inspection tool**, not a replacement for authored level lighting.
+Lux is an **Editor lighting-inspection utility**, not a runtime flashlight, replacement lighting system, or independently rendered light for each viewport.
 
-- It **does not place or save a Light Actor** or modify existing lights or baked lighting.
-- It **does not add a gameplay flashlight**, runtime lighting component, or packaged-game content.
-- It **does not create a separate light for every viewport**. Lux uses one transient point light in the shared Editor world; its illumination may also be visible from another lit Editor viewport.
-- It **does not follow orthographic, PIE, or game cameras**. Tracking is intended for perspective Level Editor viewports.
-- It **does not project a focused spotlight beam**. The headlamp is an omnidirectional point light.
-- It **does not override your renderer**, exposure, fog, materials, or supported shadow methods.
+- **One shared Editor-world light.** The headlamp is a transient movable Point Light Component, not a placed Actor. Its light may also be visible from other lit Editor viewports showing the same world.
+- **Perspective Level Editor tracking only.** Lux doesn't follow orthographic, PIE, game, or asset-editor cameras.
+- **Point light, not spotlight.** It illuminates in every direction; it doesn't project a focused flashlight beam.
+- **Rendering features have prerequisites.** Exposure, fog, materials, GI, and shadow methods affect the result. Some Advanced settings may not visibly change the scene in a given renderer configuration.
+- **Dynamic lighting has a cost.** Large attenuation radii, movable shadows, volumetric contributions, and translucency can affect editor rendering performance.
+- **Personal values and project defaults are separate.** New shared limits may clamp a user's saved Intensity or Radius. The headlamp's enabled state resets off when the Editor restarts.
+- **No packaged-game Lux runtime.** Lux doesn't author or save lighting into the map, change existing Light Actors, or provide gameplay flashlight functionality.
 
-### Practical limitations
+For more detail, see the [FAQ](https://mippi-the-dork.github.io/Lux/?page=05-support-and-troubleshooting%2Ffaq%2FDESIGN.md) and [Troubleshooting](https://mippi-the-dork.github.io/Lux/?page=05-support-and-troubleshooting%2Ftroubleshooting%2FDESIGN.md).
 
-**Rendering:** Some Advanced properties, including volumetric, indirect, translucent and shadow-related effects, depend on the scene and render configuration. Changing a setting correctly doesn't guarantee a visible result in every project.
+## What's next?
 
-**Performance:** A movable point light with a large attenuation radius and dynamic shadows can have a meaningful rendering cost. Volumetric and translucent contributions may add more work depending on the project.
+Lux v2.0.10 already provides native viewport controls, a camera-following Editor headlamp, everyday and advanced point-light properties, project defaults, and per-user preferences.
 
-**Preferences:** Project defaults and each editor user's saved light properties are separate. Shared changes to permitted Intensity/Radius limits can constrain previously saved personal values. Lux's on/off state always starts disabled after an Editor restart.
+Future research may explore clearer multi-viewport feedback, improved lighting-inspection workflows, and better renderer-specific diagnostics. **These are opportunities under consideration, not announced features or scheduled releases.**
 
-For detailed explanations, read [How Lux Works](https://mippi-the-dork.github.io/Lux/?page=04-workflows-and-implementation%2Farchitecture%2FDESIGN.md) and the [Technical Architecture](https://mippi-the-dork.github.io/Lux/?page=04-workflows-and-implementation%2Farchitecture%2FTECHNICAL.md).
+[**View the Lux Roadmap →**](https://mippi-the-dork.github.io/Lux/?page=ROADMAP.md)
 
-## Reporting bugs
+## Issues, feature requests and contributions
 
-Found something that doesn't behave as expected? **[Open an issue](https://github.com/mippi-the-dork/Lux/issues)** and include the Lux and Unreal Engine versions, Windows version, installation method, steps to reproduce, expected and actual behavior, and relevant screenshots or Editor logs.
+Found a bug? Please [open an issue](https://github.com/mippi-the-dork/Lux/issues) with your Lux/Unreal versions, installation method, viewport arrangement, reproduction steps, and screenshots or Output Log excerpts where helpful.
 
-For lighting issues, include the viewport arrangement, active rendering features, and the Lux setting involved. See [Troubleshooting](https://mippi-the-dork.github.io/Lux/?page=05-support-and-troubleshooting%2Ftroubleshooting%2FDESIGN.md) for common causes.
+Have an idea? [Submit a feature request](https://github.com/mippi-the-dork/Lux/issues) describing the editing problem, what you'd like Lux to do, and the result you're after.
 
-## Feature requests
-
-**[Suggest an improvement through GitHub Issues](https://github.com/mippi-the-dork/Lux/issues).** Describe the workflow you're trying to improve, what currently gets in the way, and the result you'd like to achieve.
-
-You can also see the [Lux Roadmap](https://mippi-the-dork.github.io/Lux/?page=ROADMAP.md) for documented priorities and future research directions. Unscheduled ideas are not promises of future features.
-
-## Contributions
-
-Contributions are welcome. For substantial changes, consider opening an Issue first to discuss the expected editor behavior and compatibility. Lux is built around Unreal's native editor tools and does not require Unreal Engine source modifications.
+**Pull requests are welcome.** For substantial changes, open an issue first to discuss scope and compatibility. Lux aims to remain a compact, native Unreal Editor tool without engine modifications.
 
 ## License
 
@@ -137,6 +138,6 @@ Lux is distributed under the **MIT License**. See [LICENSE](LICENSE) for the ful
 
 ---
 
-**Lux by Mippi the Dork.** When you need to see what you're building, the answer shouldn't have to be changing what you've built.
+**Lux is created by Mippi the Dork.**
 
-**[Documentation](https://mippi-the-dork.github.io/Lux/) · [Fab](https://www.fab.com/listings/1e650e52-7265-44db-a8a5-65b8343df176) · [Releases](https://github.com/mippi-the-dork/Lux/releases) · [Report an issue](https://github.com/mippi-the-dork/Lux/issues)**
+**[Explore the Documentation](https://mippi-the-dork.github.io/Lux/)** · **[Get Lux](https://github.com/mippi-the-dork/Lux/releases)** · **[Report an Issue](https://github.com/mippi-the-dork/Lux/issues)**
