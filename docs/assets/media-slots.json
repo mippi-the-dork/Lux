@@ -1,0 +1,313 @@
+{
+  "baseline": "Lux v2.0.10",
+  "placeholder": "assets/media-placeholder.png",
+  "notes": "Each planned media slot displays the supplied neutral PNG until replaced. GIF slots specify planned animations, not existing GIF assets. Existing genuine Lux media is kept separately.",
+  "slots": [
+    {
+      "id": "first-use-state-flow",
+      "kind": "image",
+      "page": "01-getting-started/first-use/TECHNICAL.md",
+      "final_asset": "assets/media/first-use-state-flow.png",
+      "caption": "The toolbar on/off state and saved light-property values are independent.",
+      "alt": "Lux enabled-state flow and persistent setting separation.",
+      "capture_instructions": "Create a compact state diagram showing session-only bEnabled toggling the transient light, while individual light settings are stored in ULuxUserSettings and read during the next activation. Include the independent settings arrow."
+    },
+    {
+      "id": "install-plugin-folder",
+      "kind": "image",
+      "page": "01-getting-started/install/DESIGN.md",
+      "final_asset": "assets/media/install-plugin-folder.png",
+      "caption": "A project installation places the complete Lux plugin inside the project's Plugins folder.",
+      "alt": "File Explorer showing the installed Lux plugin directory.",
+      "capture_instructions": "Capture Windows File Explorer at YourProject/Plugins/Lux, with Lux.uplugin, Source, Resources and Content visible, plus the full parent path in the address bar."
+    },
+    {
+      "id": "install-toolbar-location",
+      "kind": "image",
+      "page": "01-getting-started/install/TECHNICAL.md",
+      "final_asset": "assets/media/install-toolbar-location.png",
+      "caption": "Lux is registered with the Level Editor viewport's native toolbar controls.",
+      "alt": "Lux position within the native Unreal Editor viewport toolbar.",
+      "capture_instructions": "Capture the Level Editor toolbar with the Lux icon and its neighboring dropdown arrow highlighted immediately before the right-anchored viewport controls. Keep the surrounding toolbar items visible for orientation."
+    },
+    {
+      "id": "overview-headlamp",
+      "kind": "image",
+      "page": "01-getting-started/overview/DESIGN.md",
+      "final_asset": "assets/media/overview-headlamp.png",
+      "caption": "Lux illuminates nearby scene geometry for inspection while leaving placed level lighting alone.",
+      "alt": "Lux enabled in a dark Level Editor interior.",
+      "capture_instructions": "Capture a dark interior in a perspective Level Editor viewport with Lux active. Show the Lux toolbar button and enough nearby geometry to reveal the headlamp's effect. Do not use a PIE or game camera."
+    },
+    {
+      "id": "overview-light-lifecycle",
+      "kind": "image",
+      "page": "01-getting-started/overview/TECHNICAL.md",
+      "final_asset": "assets/media/overview-light-lifecycle.png",
+      "caption": "The Lux editor subsystem owns a temporary point light whose position follows the active perspective viewport.",
+      "alt": "Lux architecture diagram of editor subsystem, viewport and transient light.",
+      "capture_instructions": "Draw a technical flow from Level Editor toolbar to ULuxEditorSubsystem, transient movable UPointLightComponent, editor world and selected perspective camera. Label the world as Editor-only and show that no placed AActor or game-world module is created."
+    },
+    {
+      "id": "advanced-menu",
+      "kind": "image",
+      "page": "02-headlamp-controls/advanced-lighting/DESIGN.md",
+      "final_asset": "assets/media/advanced-menu.png",
+      "caption": "The Advanced → Lighting submenu contains the less frequently changed light properties.",
+      "alt": "Lux Advanced Lighting submenu displaying five native properties.",
+      "capture_instructions": "Capture the Lux dropdown with the Advanced submenu open and the Lighting section fully visible. Ensure all five labels and the numeric or checkbox controls are readable."
+    },
+    {
+      "id": "advanced-render-effects",
+      "kind": "gif",
+      "page": "02-headlamp-controls/advanced-lighting/DESIGN.md",
+      "final_asset": "assets/media/advanced-render-effects.gif",
+      "caption": "Advanced Lux settings may alter supported shadows, specular highlights, fog and translucency without changing the level's lights.",
+      "alt": "Advanced Lux lighting effects demonstrated in a fixed test scene.",
+      "capture_instructions": "Record a controlled scene with fog, a reflective object and a translucent material. Keep camera and primary light controls fixed while adjusting Source Radius, Volumetric Scattering Intensity and Specular Scale separately. Clearly label each adjustment."
+    },
+    {
+      "id": "advanced-property-routing",
+      "kind": "image",
+      "page": "02-headlamp-controls/advanced-lighting/TECHNICAL.md",
+      "final_asset": "assets/media/advanced-property-routing.png",
+      "caption": "Advanced Lighting controls map directly to native point-light properties.",
+      "alt": "Lux advanced lighting setter diagram with ranges.",
+      "capture_instructions": "Create a five-row chart mapping Advanced submenu controls to ULuxEditorSubsystem setter calls and UPointLightComponent operations. Indicate each numeric bound and label translucency as a boolean."
+    },
+    {
+      "id": "everyday-scrubbing",
+      "kind": "gif",
+      "page": "02-headlamp-controls/everyday/DESIGN.md",
+      "final_asset": "assets/media/everyday-scrubbing.gif",
+      "caption": "The headlamp's brightness and reach can be adjusted independently while viewing the effect.",
+      "alt": "Lux intensity and attenuation radius numeric scrubbing demonstration.",
+      "capture_instructions": "Record Intensity being scrubbed up/down, then Attenuation Radius changing while keeping the camera fixed. Show the Lux native dropdown and nearby lit geometry throughout, with the two effects visible."
+    },
+    {
+      "id": "everyday-value-flow",
+      "kind": "image",
+      "page": "02-headlamp-controls/everyday/TECHNICAL.md",
+      "final_asset": "assets/media/everyday-value-flow.png",
+      "caption": "The native menu writes editor-user preferences and the active transient point light together.",
+      "alt": "Lux native menu fields mapped to subsystem properties and point light setters.",
+      "capture_instructions": "Create a diagram showing the four Headlamp menu controls calling ULuxEditorSubsystem setters, which write ULuxUserSettings and update the transient UPointLightComponent. Show project range clamps only on Intensity and Attenuation Radius."
+    },
+    {
+      "id": "temperature-comparison",
+      "kind": "gif",
+      "page": "02-headlamp-controls/temperature/DESIGN.md",
+      "final_asset": "assets/media/temperature-comparison.gif",
+      "caption": "Lux's temperature tint changes the character of the inspection light when Use Temperature is enabled.",
+      "alt": "Lux color temperature changing from warm to cool in the same scene.",
+      "capture_instructions": "Record the Lux Temperature submenu with Use Temperature checked; hold the viewport camera and material constant while scrubbing Kelvin from a warm value through 6500 K to a cooler value. Then disable Use Temperature to show the distinction."
+    },
+    {
+      "id": "temperature-color-flow",
+      "kind": "image",
+      "page": "02-headlamp-controls/temperature/TECHNICAL.md",
+      "final_asset": "assets/media/temperature-color-flow.png",
+      "caption": "Color temperature is an optional tint applied together with the native Light Color setting.",
+      "alt": "Lux Light Color and Use Temperature interaction diagram.",
+      "capture_instructions": "Diagram a checkbox-controlled Kelvin field (1000–20000 K) and a separate Light Color swatch feeding the same point-light color result. Show Temperature disabled when Use Temperature is unchecked."
+    },
+    {
+      "id": "toolbar-button",
+      "kind": "image",
+      "page": "02-headlamp-controls/toolbar/DESIGN.md",
+      "final_asset": "assets/media/toolbar-button.png",
+      "caption": "The Lux icon and settings arrow occupy a compact native viewport toolbar control.",
+      "alt": "Lux toolbar icon and separate settings dropdown arrow.",
+      "capture_instructions": "Capture a perspective Level Editor viewport toolbar including the Lux icon and adjacent menu arrow, with enough surrounding controls to establish its position. Show the icon in its active Accent Blue state."
+    },
+    {
+      "id": "toolbar-slate-composition",
+      "kind": "image",
+      "page": "02-headlamp-controls/toolbar/TECHNICAL.md",
+      "final_asset": "assets/media/toolbar-slate-composition.png",
+      "caption": "The native Slate toolbar separates the Lux activation button from the settings menu.",
+      "alt": "Slate widget hierarchy of Lux toolbar controls.",
+      "capture_instructions": "Draw a labeled technical mockup of SHorizontalBox containing the SButton with SVG icon and SComboButton with arrow, with arrows to SetHeadlampState and MakeSettingsMenu. Include active/inactive tint annotations."
+    },
+    {
+      "id": "project-defaults-screen",
+      "kind": "image",
+      "page": "03-settings-and-preferences/project-defaults/DESIGN.md",
+      "final_asset": "assets/media/project-defaults-screen.png",
+      "caption": "Lux Project Settings define shared range limits and the values used by Reset to Project Defaults.",
+      "alt": "Lux Project Settings showing limits and default headlamp values.",
+      "capture_instructions": "Capture Edit → Project Settings → Plugins → Lux in Unreal. Expand Intensity, Attenuation Radius, Light Defaults and Advanced Defaults so their built-in fields and values are visible, using two cropped panels if necessary."
+    },
+    {
+      "id": "project-config-flow",
+      "kind": "image",
+      "page": "03-settings-and-preferences/project-defaults/TECHNICAL.md",
+      "final_asset": "assets/media/project-config-flow.png",
+      "caption": "Project defaults constrain supported numeric values and supply the reset targets for personal Lux preferences.",
+      "alt": "Lux shared Project Settings and individual preferences data flow.",
+      "capture_instructions": "Create an ownership diagram of ULuxProjectSettings (Config=Editor) feeding Intensity/Radius constraints and Reset to Project Defaults, while ULuxUserSettings keeps separate per-user selections."
+    },
+    {
+      "id": "reset-menu",
+      "kind": "gif",
+      "page": "03-settings-and-preferences/reset/DESIGN.md",
+      "final_asset": "assets/media/reset-menu.gif",
+      "caption": "Reset restores Lux's personal headlamp adjustments without changing whether the headlamp is enabled.",
+      "alt": "Lux Reset to Project Defaults command restoring edited properties.",
+      "capture_instructions": "Record changing Intensity, Light Color and one Advanced property, then selecting Reset to Project Defaults from the native Lux menu. Reopen the menu to show the restored values and unchanged toolbar icon state."
+    },
+    {
+      "id": "reset-state-update",
+      "kind": "image",
+      "page": "03-settings-and-preferences/reset/TECHNICAL.md",
+      "final_asset": "assets/media/reset-state-update.png",
+      "caption": "Reset copies the project defaults into personal preferences and refreshes the live temporary light if one exists.",
+      "alt": "Lux reset data flow without altering session on/off state.",
+      "capture_instructions": "Draw a flowchart from the Lux menu Reset command to ULuxProjectSettings, through supported clamps into ULuxUserSettings, and finally to ApplyLightSettings for an existing transient point light. Explicitly keep bEnabled outside the flow."
+    },
+    {
+      "id": "preferences-session",
+      "kind": "image",
+      "page": "03-settings-and-preferences/user-preferences/DESIGN.md",
+      "final_asset": "assets/media/preferences-session.png",
+      "caption": "Lux remembers personal light properties independently from the temporary on/off state.",
+      "alt": "Lux enabled-state reset and persistent user intensity comparison.",
+      "capture_instructions": "Create a two-panel before-and-after Unreal Editor capture: the first shows Lux enabled with customized intensity; after restarting, show the icon gray and the dropdown still holding the customized intensity."
+    },
+    {
+      "id": "preferences-storage",
+      "kind": "image",
+      "page": "03-settings-and-preferences/user-preferences/TECHNICAL.md",
+      "final_asset": "assets/media/preferences-storage.png",
+      "caption": "Project defaults, personal values, session activation and the transient component use separate storage lifetimes.",
+      "alt": "Lux configuration and transient state persistence diagram.",
+      "capture_instructions": "Make a four-lane storage diagram: Config=Editor project defaults, EditorPerProjectUserSettings personal properties, session-only bEnabled, and RF_Transient UPointLightComponent. Show which survive editor restart."
+    },
+    {
+      "id": "architecture-lifecycle",
+      "kind": "image",
+      "page": "04-workflows-and-implementation/architecture/DESIGN.md",
+      "final_asset": "assets/media/architecture-lifecycle.png",
+      "caption": "The Lux headlamp exists only while enabled in a compatible Editor world and follows the working camera.",
+      "alt": "Lux temporary headlamp lifecycle architecture.",
+      "capture_instructions": "Draw a lifecycle diagram: Disabled → toolbar click → Enabled/valid editor camera → Create transient point light → camera movement updates position → Disable or world cleanup destroys component. Show map-change recreation as a separate arrow."
+    },
+    {
+      "id": "architecture-source-map",
+      "kind": "image",
+      "page": "04-workflows-and-implementation/architecture/TECHNICAL.md",
+      "final_asset": "assets/media/architecture-source-map.png",
+      "caption": "Lux separates native UI, input tracking, transient light management and stored preferences into distinct editor classes.",
+      "alt": "Lux source components and configuration ownership diagram.",
+      "capture_instructions": "Create a class/data flow diagram including FLuxModule, SLuxViewportControl, FLuxInputProcessor, FLuxViewportTracker, ULuxEditorSubsystem, ULuxProjectSettings, ULuxUserSettings and UPointLightComponent. Indicate ownership and callback direction."
+    },
+    {
+      "id": "material-comparison",
+      "kind": "image",
+      "page": "04-workflows-and-implementation/inspection-workflows/DESIGN.md",
+      "final_asset": "assets/media/material-comparison.png",
+      "caption": "Lux's color and specular settings help isolate material response without editing the material asset.",
+      "alt": "Material-response comparison under two Lux light settings.",
+      "capture_instructions": "Capture the same glossy and matte material samples in a perspective viewport under Lux, ideally as a labeled side-by-side comparison with different Specular Scale or Source Radius values. Keep all material properties unchanged."
+    },
+    {
+      "id": "inspection-performance",
+      "kind": "image",
+      "page": "04-workflows-and-implementation/inspection-workflows/TECHNICAL.md",
+      "final_asset": "assets/media/inspection-performance.png",
+      "caption": "The inspection light remains a transient editor component while rendering features determine the lighting cost.",
+      "alt": "Lux editor headlamp features influencing renderer cost.",
+      "capture_instructions": "Create a conceptual cost diagram showing one Lux point light with attenuation radius, Cast Shadows, volumetric and translucent contributions labeled. Avoid invented frame times or performance numbers."
+    },
+    {
+      "id": "viewport-switching",
+      "kind": "gif",
+      "page": "04-workflows-and-implementation/viewports/DESIGN.md",
+      "final_asset": "assets/media/viewport-switching.gif",
+      "caption": "A single Lux headlamp moves between perspective Level Editor cameras as the user changes the active editing viewport.",
+      "alt": "Animation transferring Lux tracking between perspective editor viewports.",
+      "capture_instructions": "Record a two-perspective-viewport Unreal layout with both viewports visible. Click and move camera A, then click and move camera B, showing which view is receiving the tracking light. Use a modest attenuation radius and an overlay label to make the current target unmistakable."
+    },
+    {
+      "id": "viewport-tracker-policy",
+      "kind": "image",
+      "page": "04-workflows-and-implementation/viewports/TECHNICAL.md",
+      "final_asset": "assets/media/viewport-tracker-policy.png",
+      "caption": "Lux resolves the last interacted perspective Level Editor viewport before using supported fallbacks.",
+      "alt": "Lux active perspective viewport selection logic.",
+      "capture_instructions": "Create a decision flow showing a valid tracked SLevelViewport, then matching active Level Editor viewport, then first available perspective fallback. Separate rejected orthographic, PIE and asset-editor clients from valid targets."
+    },
+    {
+      "id": "faq-compare-states",
+      "kind": "image",
+      "page": "05-support-and-troubleshooting/faq/DESIGN.md",
+      "final_asset": "assets/media/faq-compare-states.png",
+      "caption": "Lux's toolbar state, saved preferences and the temporary light are separate concepts.",
+      "alt": "Lux activation, preferences and transient component comparison.",
+      "capture_instructions": "Create a three-column annotated still: Lux icon off/on, dropdown settings showing a saved intensity, and the same scene without a placed Light Actor in the Outliner. Keep the purpose of each state distinct."
+    },
+    {
+      "id": "faq-diagnostic-branches",
+      "kind": "image",
+      "page": "05-support-and-troubleshooting/faq/TECHNICAL.md",
+      "final_asset": "assets/media/faq-diagnostic-branches.png",
+      "caption": "Common Lux questions can be traced to specific editor systems and preference layers.",
+      "alt": "Lux troubleshooting flow chart from common symptoms to implementation areas.",
+      "capture_instructions": "Draw a decision tree beginning with 'Icon missing?', 'Icon blue but no light?', 'Wrong viewport?', and 'Settings not saved?', leading to toolbar, subsystem, tracker and config ownership."
+    },
+    {
+      "id": "troubleshoot-dark-scene",
+      "kind": "image",
+      "page": "05-support-and-troubleshooting/troubleshooting/DESIGN.md",
+      "final_asset": "assets/media/troubleshoot-dark-scene.png",
+      "caption": "Lux can be active while brightness, light radius or viewport conditions prevent an obvious visible result.",
+      "alt": "Lux active but dim versus correctly configured light.",
+      "capture_instructions": "Capture two screenshots of the same perspective viewport with the Lux icon blue: one with near-zero Intensity or tiny radius leaving the scene dark, another with a useful value lighting nearby surfaces. Show the relevant dropdown controls and labels."
+    },
+    {
+      "id": "troubleshoot-light-lifecycle",
+      "kind": "image",
+      "page": "05-support-and-troubleshooting/troubleshooting/TECHNICAL.md",
+      "final_asset": "assets/media/troubleshoot-light-lifecycle.png",
+      "caption": "Troubleshooting follows the native toolbar, viewport resolution, transient light and renderer layers.",
+      "alt": "Lux toolbar-to-render troubleshooting flow diagram.",
+      "capture_instructions": "Make a flowchart beginning at Lux icon click and tracing module registration, perspective viewport validation, EnsureLight, SetWorldLocation, ApplyLightSettings, and renderer. Mark failure points at each decision."
+    },
+    {
+      "id": "update-plugin-directory",
+      "kind": "image",
+      "page": "05-support-and-troubleshooting/updates/DESIGN.md",
+      "final_asset": "assets/media/update-plugin-directory.png",
+      "caption": "A safe manual Lux update replaces the entire plugin folder rather than mixing files from multiple versions.",
+      "alt": "Lux project plugin folder ready for a complete update.",
+      "capture_instructions": "Capture File Explorer showing YourProject/Plugins/Lux with Lux.uplugin, Source, Resources and Content. Include a simple note that the Unreal Editor is closed and the full folder is replaced."
+    },
+    {
+      "id": "update-source-ownership",
+      "kind": "image",
+      "page": "05-support-and-troubleshooting/updates/TECHNICAL.md",
+      "final_asset": "assets/media/update-source-ownership.png",
+      "caption": "Lux updates affect editor plugin files while personal preferences and project settings remain separate.",
+      "alt": "Lux release update and configuration ownership diagram.",
+      "capture_instructions": "Create a concise diagram separating Plugins/Lux module files, shared Project Settings config, personal EditorPerProjectUserSettings and transient runtime-editor component. Indicate that the component is recreated, not migrated as level content."
+    },
+    {
+      "id": "roadmap-timeline",
+      "kind": "image",
+      "page": "ROADMAP.md",
+      "final_asset": "assets/media/roadmap-timeline.png",
+      "caption": "Lux's roadmap distinguishes the current documented release from uncommitted future opportunities.",
+      "alt": "Lux current release and proposed future roadmap timeline",
+      "capture_instructions": "Create a clean timeline with Lux v2.0.10 marked Released, historical milestones explicitly marked Unverified, and future directions marked Not Scheduled. Do not assign unsupported v1/v2 release claims or dates."
+    },
+    {
+      "id": "roadmap-future",
+      "kind": "image",
+      "page": "ROADMAP.md",
+      "final_asset": "assets/media/roadmap-future.png",
+      "caption": "Future Lux research may focus on faster inspection workflows, clearer viewport targeting and more predictable rendering feedback.",
+      "alt": "Conceptual examples of future Lux inspection workflow areas",
+      "capture_instructions": "Make a labeled three-column concept diagram for Inspection Workflows, Viewport Clarity and Rendering Guidance. Use conceptual icons or neutral diagrams only, not fabricated screenshots or a mockup implying these features ship today."
+    }
+  ]
+}
