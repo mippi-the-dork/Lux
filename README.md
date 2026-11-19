@@ -46,9 +46,9 @@ Lux lives in the **right-anchored Level Editor viewport toolbar** and uses Unrea
 
 The headlamp follows the position of the perspective Level Editor camera you're using. It is a **movable point light**, so it illuminates in every direction rather than projecting a directional flashlight beam.
 
-![Lux toggle demonstration](Doc/Images/Lux-Toggle.gif)
+[![Lux enabled in the Level Editor — open the toggle demonstration](Doc/Images/Lux-On.png)](Doc/Images/Lux-Toggle.gif)
 
-*One click brings inspection light into a dark scene; another returns you to the authored lighting.*
+*See Lux illuminating a dark scene. Select the image to watch the headlamp toggle demonstration.*
 
 ### Make the light your own
 
