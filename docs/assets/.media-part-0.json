@@ -1,0 +1,47 @@
+[
+  {
+    "id": "first-use-state-flow",
+    "kind": "image",
+    "page": "01-getting-started/first-use/TECHNICAL.md",
+    "final_asset": "assets/media/first-use-state-flow.png",
+    "caption": "The toolbar on/off state and saved light-property values are independent.",
+    "alt": "Lux enabled-state flow and persistent setting separation.",
+    "capture_instructions": "Create a compact state diagram showing session-only bEnabled toggling the transient light, while individual light settings are stored in ULuxUserSettings and read during the next activation. Include the independent settings arrow."
+  },
+  {
+    "id": "install-plugin-folder",
+    "kind": "image",
+    "page": "01-getting-started/install/DESIGN.md",
+    "final_asset": "assets/media/install-plugin-folder.png",
+    "caption": "A project installation places the complete Lux plugin inside the project's Plugins folder.",
+    "alt": "File Explorer showing the installed Lux plugin directory.",
+    "capture_instructions": "Capture Windows File Explorer at YourProject/Plugins/Lux, with Lux.uplugin, Source, Resources and Content visible, plus the full parent path in the address bar."
+  },
+  {
+    "id": "install-toolbar-location",
+    "kind": "image",
+    "page": "01-getting-started/install/TECHNICAL.md",
+    "final_asset": "assets/media/install-toolbar-location.png",
+    "caption": "Lux is registered with the Level Editor viewport's native toolbar controls.",
+    "alt": "Lux position within the native Unreal Editor viewport toolbar.",
+    "capture_instructions": "Capture the Level Editor toolbar with the Lux icon and its neighboring dropdown arrow highlighted immediately before the right-anchored viewport controls. Keep the surrounding toolbar items visible for orientation."
+  },
+  {
+    "id": "overview-headlamp",
+    "kind": "image",
+    "page": "01-getting-started/overview/DESIGN.md",
+    "final_asset": "assets/media/overview-headlamp.png",
+    "caption": "Lux illuminates nearby scene geometry for inspection while leaving placed level lighting alone.",
+    "alt": "Lux enabled in a dark Level Editor interior.",
+    "capture_instructions": "Capture a dark interior in a perspective Level Editor viewport with Lux active. Show the Lux toolbar button and enough nearby geometry to reveal the headlamp's effect. Do not use a PIE or game camera."
+  },
+  {
+    "id": "overview-light-lifecycle",
+    "kind": "image",
+    "page": "01-getting-started/overview/TECHNICAL.md",
+    "final_asset": "assets/media/overview-light-lifecycle.png",
+    "caption": "The Lux editor subsystem owns a temporary point light whose position follows the active perspective viewport.",
+    "alt": "Lux architecture diagram of editor subsystem, viewport and transient light.",
+    "capture_instructions": "Draw a technical flow from Level Editor toolbar to ULuxEditorSubsystem, transient movable UPointLightComponent, editor world and selected perspective camera. Label the world as Editor-only and show that no placed AActor or game-world module is created."
+  }
+]
