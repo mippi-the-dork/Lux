@@ -1,0 +1,83 @@
+[
+  {
+    "id": "advanced-menu",
+    "kind": "image",
+    "page": "02-headlamp-controls/advanced-lighting/DESIGN.md",
+    "final_asset": "assets/media/advanced-menu.png",
+    "caption": "The Advanced → Lighting submenu contains the less frequently changed light properties.",
+    "alt": "Lux Advanced Lighting submenu displaying five native properties.",
+    "capture_instructions": "Capture the Lux dropdown with the Advanced submenu open and the Lighting section fully visible. Ensure all five labels and the numeric or checkbox controls are readable."
+  },
+  {
+    "id": "advanced-render-effects",
+    "kind": "gif",
+    "page": "02-headlamp-controls/advanced-lighting/DESIGN.md",
+    "final_asset": "assets/media/advanced-render-effects.gif",
+    "caption": "Advanced Lux settings may alter supported shadows, specular highlights, fog and translucency without changing the level's lights.",
+    "alt": "Advanced Lux lighting effects demonstrated in a fixed test scene.",
+    "capture_instructions": "Record a controlled scene with fog, a reflective object and a translucent material. Keep camera and primary light controls fixed while adjusting Source Radius, Volumetric Scattering Intensity and Specular Scale separately. Clearly label each adjustment."
+  },
+  {
+    "id": "advanced-property-routing",
+    "kind": "image",
+    "page": "02-headlamp-controls/advanced-lighting/TECHNICAL.md",
+    "final_asset": "assets/media/advanced-property-routing.png",
+    "caption": "Advanced Lighting controls map directly to native point-light properties.",
+    "alt": "Lux advanced lighting setter diagram with ranges.",
+    "capture_instructions": "Create a five-row chart mapping Advanced submenu controls to ULuxEditorSubsystem setter calls and UPointLightComponent operations. Indicate each numeric bound and label translucency as a boolean."
+  },
+  {
+    "id": "everyday-scrubbing",
+    "kind": "gif",
+    "page": "02-headlamp-controls/everyday/DESIGN.md",
+    "final_asset": "assets/media/everyday-scrubbing.gif",
+    "caption": "The headlamp's brightness and reach can be adjusted independently while viewing the effect.",
+    "alt": "Lux intensity and attenuation radius numeric scrubbing demonstration.",
+    "capture_instructions": "Record Intensity being scrubbed up/down, then Attenuation Radius changing while keeping the camera fixed. Show the Lux native dropdown and nearby lit geometry throughout, with the two effects visible."
+  },
+  {
+    "id": "everyday-value-flow",
+    "kind": "image",
+    "page": "02-headlamp-controls/everyday/TECHNICAL.md",
+    "final_asset": "assets/media/everyday-value-flow.png",
+    "caption": "The native menu writes editor-user preferences and the active transient point light together.",
+    "alt": "Lux native menu fields mapped to subsystem properties and point light setters.",
+    "capture_instructions": "Create a diagram showing the four Headlamp menu controls calling ULuxEditorSubsystem setters, which write ULuxUserSettings and update the transient UPointLightComponent. Show project range clamps only on Intensity and Attenuation Radius."
+  },
+  {
+    "id": "temperature-comparison",
+    "kind": "gif",
+    "page": "02-headlamp-controls/temperature/DESIGN.md",
+    "final_asset": "assets/media/temperature-comparison.gif",
+    "caption": "Lux's temperature tint changes the character of the inspection light when Use Temperature is enabled.",
+    "alt": "Lux color temperature changing from warm to cool in the same scene.",
+    "capture_instructions": "Record the Lux Temperature submenu with Use Temperature checked; hold the viewport camera and material constant while scrubbing Kelvin from a warm value through 6500 K to a cooler value. Then disable Use Temperature to show the distinction."
+  },
+  {
+    "id": "temperature-color-flow",
+    "kind": "image",
+    "page": "02-headlamp-controls/temperature/TECHNICAL.md",
+    "final_asset": "assets/media/temperature-color-flow.png",
+    "caption": "Color temperature is an optional tint applied together with the native Light Color setting.",
+    "alt": "Lux Light Color and Use Temperature interaction diagram.",
+    "capture_instructions": "Diagram a checkbox-controlled Kelvin field (1000–20000 K) and a separate Light Color swatch feeding the same point-light color result. Show Temperature disabled when Use Temperature is unchecked."
+  },
+  {
+    "id": "toolbar-button",
+    "kind": "image",
+    "page": "02-headlamp-controls/toolbar/DESIGN.md",
+    "final_asset": "assets/media/toolbar-button.png",
+    "caption": "The Lux icon and settings arrow occupy a compact native viewport toolbar control.",
+    "alt": "Lux toolbar icon and separate settings dropdown arrow.",
+    "capture_instructions": "Capture a perspective Level Editor viewport toolbar including the Lux icon and adjacent menu arrow, with enough surrounding controls to establish its position. Show the icon in its active Accent Blue state."
+  },
+  {
+    "id": "toolbar-slate-composition",
+    "kind": "image",
+    "page": "02-headlamp-controls/toolbar/TECHNICAL.md",
+    "final_asset": "assets/media/toolbar-slate-composition.png",
+    "caption": "The native Slate toolbar separates the Lux activation button from the settings menu.",
+    "alt": "Slate widget hierarchy of Lux toolbar controls.",
+    "capture_instructions": "Draw a labeled technical mockup of SHorizontalBox containing the SButton with SVG icon and SComboButton with arrow, with arrows to SetHeadlampState and MakeSettingsMenu. Include active/inactive tint annotations."
+  }
+]
