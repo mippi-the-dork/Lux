@@ -263,6 +263,10 @@
     // are left unchanged; this also keeps GitHub's Markdown preview correct.
     els.article.querySelectorAll('img[src]').forEach(img=>{
       const raw=img.getAttribute('src')||'';
+      // The existing Lux toggle animation is over 30 MB: do not fetch it
+      // until the reader scrolls near the corresponding demonstration.
+      img.loading=raw.includes('Lux-Hero.png')?'eager':'lazy';
+      img.decoding='async';
       if(!raw||/^(?:[a-z]+:|\/|#)/i.test(raw))return;
       const target=resolveRelative(state.current,raw);
       if(target.path)img.setAttribute('src',target.path+(target.hash||''));
